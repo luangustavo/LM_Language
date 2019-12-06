@@ -1,0 +1,48 @@
+shellSort(int values[10], int size) int[] {
+      int h;
+      h = 1;
+
+      if(h < size) {
+           h = h * 3 + 1;
+      };
+
+      h = h / 3;
+      int c;
+      int j;
+
+      if(h > 0) {
+           int i;
+           i = h;
+           repeater(i; size; 1) {
+                c = values[i];
+                j = i;
+                if(j >= h and values[j - h] > c) {
+                      values[j] = values[j - h];
+                      j = j - h;
+                };
+                values[j] = c;
+           };
+           h = h / 2;
+      };
+      return values;
+};
+
+main() void {
+      int i;
+      int unsortedValues[10];
+      i = 0;
+      repeater(i; 10; 1) {
+           unsortedValues[i] = lastValueRead();
+      };
+      i = 0;
+      repeater(i; 10; 1) {
+           print(unsortedValues[i]);
+           print("\n");
+      };
+      int sortedValues[10] = shellsort(unsortedValues, 10);
+      i = 0;
+      repeater(i; 10; 1) {
+           print(sortedValues[i]);
+           print("\n");
+      };
+};

@@ -1,7 +1,5 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LexicalAnalyzer {
     private String line;
@@ -24,27 +22,16 @@ public class LexicalAnalyzer {
 
         try {
             reader = new BufferedReader(new FileReader(filePath));
-            String line = reader.readLine();
+            line = reader.readLine();
             int i=0;
             while (line != null) {
-                /*Atribuindo as linhas na lista*/
-                //linesList.add(line);
-                this.line = line;
-                Token token;
+
                 System.out.format("%4d  %s\n", i+1, line);
 
                 while (hasMoreTokens()) {
 
                     syntatic.Analyzer();
-                    //token = nextToken();
-
-                    //System.out.println(token.toString());
-
-                    //syntatic.listTokens.add(token);
-
                 }
-
-
                 i++;
                 line = reader.readLine();
             }

@@ -5,12 +5,13 @@ public class Syntatic {
     }
 
     public static void main(String[] args) {
-        String file = "files/alomundo.lm";
+        if(args.length>0) {
 
-        /*Criando o analisador e passando o arquivo*/
-        lexicalAnalyzer = new LexicalAnalyzer(file);
-        /*Lendo o arquivo e executando o analisador lexico*/
-        lexicalAnalyzer.readFile();
+            /*Criando o analisador e passando o arquivo*/
+            lexicalAnalyzer = new LexicalAnalyzer(args[0]);
+            /*Lendo o arquivo e executando o analisador lexico*/
+            lexicalAnalyzer.readFile();
+        }
 
     }
 

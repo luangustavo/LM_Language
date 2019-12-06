@@ -2,29 +2,29 @@ fibonacci(int limit) void {
     int count;
     int fib1;
     int fib2;
-    int fib3;
+    int result;
 
     fib1 = 1;
     fib2 = 1;
 
     if(limit == 0) {
         print("0");
+    }else{
+        when(result <= limit) {
+             if(count == 0){
+                  print("0");
+             }elif(count < 2) {
+                  print(",1");
+                  result = 1;
+             }else {
+                  result = fib1 + fib2;
+                  fib1 = fib2;
+                  fib2 = result;
+                  if(result<=limit){
+                      print("," ++ result);
+                  };
+             };
+             count = count + 1;
+         };
     };
-    when(count < limit) {
-        if(count < 2) {
-             print("1, ");
-        }else {
-             fib3 = fib1 + fib2;
-             fib1 = fib2;
-             fib2 = fib3;
-             print(fib3 ++ ", ");
-        };
-        count = count + 1;
-    };
-};
-
-main() void {
-    int limit;
-    read(limit);
-    fibonacci(limit);
 };

@@ -47,7 +47,7 @@ public class LexicalTable {
 
         lexemesMap.put("and", TokenCategory.AND);
         lexemesMap.put("or", TokenCategory.OR);
-        lexemesMap.put("~", TokenCategory.NOT);
+        lexemesMap.put("not", TokenCategory.NOT);
 
         lexemesMap.put("=", TokenCategory.ATR);
         lexemesMap.put("++", TokenCategory.CONCAT);

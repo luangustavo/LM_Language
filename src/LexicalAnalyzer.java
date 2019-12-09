@@ -331,7 +331,4 @@ public class LexicalAnalyzer {
         return false;
     }
 
-    public String getLine() {
-        return line;
-    }
 }

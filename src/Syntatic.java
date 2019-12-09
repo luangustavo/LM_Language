@@ -5,20 +5,19 @@ public class Syntatic {
     }
 
     public static void main(String[] args) {
-        if(args.length>0) {
+        //if(args.length>0) {
 
             /*Criando o analisador e passando o arquivo*/
-            lexicalAnalyzer = new LexicalAnalyzer(args[0]);
+            //lexicalAnalyzer = new LexicalAnalyzer(args[0]);
+            lexicalAnalyzer = new LexicalAnalyzer("files/alomundo.lm");
             /*Lendo o arquivo e executando o analisador lexico*/
-            lexicalAnalyzer.readFile();
-        }
-
-    }
-
-    public void Analyzer(){
-        Token token;
-        token = this.lexicalAnalyzer.nextToken();
-        System.out.println(token.toString());
+            //lexicalAnalyzer.readFile();
+            Token token;
+            while(lexicalAnalyzer.hasMoreTokens()){
+                token = lexicalAnalyzer.nextToken();
+                System.out.println(token.toString());
+            }
+        //}
 
     }
 

@@ -1,60 +1,97 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class LexicalAnalyzer {
     private String line;
     private String filePath;
-    private int currentLine, currentColumn = 0;
+    private int currentLine=-1, currentColumn = -1;
     private int tokenBeginColumn, tokenBeginLine = 0;
     private String tokenValue;
     private char currentChar;
     private final char LINE_BREAK = '\n';
     Syntatic syntatic;
+    BufferedReader reader;
 
     public LexicalAnalyzer(String filePath) {
         this.filePath = filePath;
         this.syntatic = new Syntatic ();
-    }
-
-    /*Lendo o arquivo de entrada*/
-    public void readFile() {
-        BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new FileReader(filePath));
-            line = reader.readLine();
-            int i=0;
-            while (line != null) {
+            this.reader = new BufferedReader(new FileReader(filePath));
 
-                System.out.format("%4d  %s\n", i+1, line);
-
-                while (hasMoreTokens()) {
-
-                    syntatic.Analyzer();
-                }
-                i++;
-                line = reader.readLine();
-            }
-            reader.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-
-
     public boolean hasMoreTokens() {
 
-        if (line.substring(currentColumn).matches("\\s*")) { //Se a linha so possui espacos em branco
-            currentLine++; //Pega a proxima linha
-            currentColumn = 0; //Reinicializa a coluna
-
-        } else if (currentColumn < line.length()) { //Se a linha possui algum caractere e a coluna n seja o final
-            return true;
-        } else { //Se a linha atual ja foi analisada
+        if(currentLine == -1 && currentColumn == -1 ) {
             currentLine++;
-            currentColumn = 0;
+            currentColumn++;
+            try {
+                line = this.reader.readLine();
+                System.out.format("%4d  %s\n", currentLine+1, line);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+        if(line !=null) {
+            if (line.substring(currentColumn).matches("\\s*")) { //Se a linha so possui espacos em branco
+                currentLine++; //Pega a proxima linha
+                currentColumn = 0; //Reinicializa a coluna
+
+                while (line != null) {
+
+                    try {
+                        line = this.reader.readLine();
+                        if(line != null){
+                            if (line.matches("\\s*")) {//Percorre enquanto houver linhas vazias
+                                currentLine++;
+                            } else {
+                                System.out.format("%4d  %s\n", currentLine+1, line);
+                                return true;
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            } else if (currentColumn < line.length()) { //Se a linha possui algum caractere e a coluna n seja o final
+                return true;
+            } else { //Se a linha atual ja foi analisada
+                currentLine++;
+                currentColumn = 0;
+
+                while (line != null) {
+
+                    try {
+                        line = this.reader.readLine();
+                        if(line != null){
+                            if (line.matches("\\s*")) {//Percorre enquanto houver linhas vazias
+                                currentLine++;
+                            } else {
+                                System.out.format("%4d  %s\n", currentLine+1, line);
+                                return true;
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        try {
+            this.reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 

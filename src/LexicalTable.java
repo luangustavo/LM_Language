@@ -57,10 +57,6 @@ public class LexicalTable {
         lexemesMap.put("{", TokenCategory.OK);
         lexemesMap.put("}", TokenCategory.CK);
 
-        // Definidor de comentario
-
-        lexemesMap.put("#", TokenCategory.COMMENT);
-
         // Delimitadores
 
         lexemesMap.put("(", TokenCategory.OP);

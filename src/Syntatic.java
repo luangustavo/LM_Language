@@ -7,16 +7,18 @@ public class Syntatic {
     public static void main(String[] args) {
         if(args.length>0) {
 
-            /*Criando o analisador e passando o nome do arquivo*/
+            /*Criando o analisador e passando o arquivo*/
             lexicalAnalyzer = new LexicalAnalyzer(args[0]);
+
             Token token;
             while(lexicalAnalyzer.hasMoreTokens()){
                 token = lexicalAnalyzer.nextToken();
                 System.out.println(token.toString());
             }
         }
+
     }
-    
+
     /*Tratando erros Lexicos*/
     public void printError(int type, String token, int currentLine, int currentColumn) {
         String msg_error = "";

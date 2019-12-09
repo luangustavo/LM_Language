@@ -50,6 +50,7 @@ public class LexicalAnalyzer {
                         if(line != null){
                             if (line.matches("\\s*")) {//Percorre enquanto houver linhas vazias
                                 currentLine++;
+                                currentColumn=0;
                             } else {
                                 System.out.format("%4d  %s\n", currentLine+1, line);
                                 return true;
@@ -116,13 +117,21 @@ public class LexicalAnalyzer {
 
             appendTokenValue();
             currentChar = nextChar();
-
+            if (currentChar == '.') {
+                appendTokenValue();
+                currentChar = nextChar();
+                while (Character.toString(currentChar).matches("\\d")) {
+                    appendTokenValue();
+                    currentChar = nextChar();
+                }
+            }
             while (Character.toString(currentChar).matches("\\d")) {
                 appendTokenValue();
                 currentChar = nextChar();
-
                 /*Caso de flutuante*/
                 if (currentChar == '.') {
+                    appendTokenValue();
+                    currentChar = nextChar();
                     while (Character.toString(currentChar).matches("\\d")) {
                         appendTokenValue();
                         currentChar = nextChar();
@@ -227,7 +236,7 @@ public class LexicalAnalyzer {
         } else if (isCteString(tokenValue)) {
             return TokenCategory.CTESTRING;
         } else if (isCteChar(tokenValue)) {
-            return TokenCategory.CHAR;
+            return TokenCategory.CTECHAR;
         } else if (isCteInt(tokenValue)) {
             return TokenCategory.CTEINT;
         } else if (isCteFloat(tokenValue)) {
@@ -318,7 +327,8 @@ public class LexicalAnalyzer {
     private boolean isOpeUnary(String tokenValue) {
         if (tokenValue.equals("-")) {
             Character previousChar = previousNotBlankChar();
-            if ((previousChar != null) && Character.toString(previousChar).matches("[a-zA-Z][a-zA-Z0-9]*")) {
+            /*Se o caractere anterior (diferente de ' ') é um operando*/
+            if ((previousChar != null) && Character.toString(previousChar).matches("[a-zA-Z0-9]*")) {
                 return false;
             } else {
                 return true;

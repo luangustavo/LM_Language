@@ -260,16 +260,10 @@ public class LexicalAnalyzer {
 
     private boolean isIdentifier(String tokenValue) {
         if (tokenValue.matches("[a-zA-Z][a-zA-Z0-9]*")) {
-            if (tokenValue.length() < 32) {
-                return true;
-            } else {
-                /*Esse erro sera tratado no Analizador sintatico*/
-                syntatic.printError(1, tokenValue, currentLine, currentColumn);
-
-            }
+            return true;
         } else {
             /*Esse erro sera tratado no Analizador sintatico*/
-            syntatic.printError(2, tokenValue, currentLine, currentColumn);
+            syntatic.printError(1, tokenValue, currentLine, currentColumn);
 
         }
         return false;

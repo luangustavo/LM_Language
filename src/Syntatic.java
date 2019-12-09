@@ -21,8 +21,7 @@ public class Syntatic {
 
     /*Tratando erros Lexicos*/
     public void printError(int type, String token, int currentLine, int currentColumn) {
-        String[] msg_error = {"Identificador muito longo.",
-                "Identificador nao iniciado com letra.",
+        String[] msg_error = {"Identificador nao iniciado com letra.",
                 "Constante float em formato errado.",
                 "Caracter nao fechado corretamente com '.",
                 "Cadeia de caracteres nao fechada corretamente com '\"'."};

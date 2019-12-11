@@ -49,6 +49,7 @@ public class LexicalAnalyzer {
                         line = this.reader.readLine();
                         if(line != null){
                             if (line.matches("\\s*")) {//Percorre enquanto houver linhas vazias
+                                System.out.format("%4d  %s\n", currentLine+1, line);
                                 currentLine++;
                                 currentColumn=0;
                             } else {
@@ -66,6 +67,7 @@ public class LexicalAnalyzer {
                 return true;
             } else { //Se a linha atual ja foi analisada
                 currentLine++;
+
                 currentColumn = 0;
 
                 while (line != null) {
@@ -74,7 +76,9 @@ public class LexicalAnalyzer {
                         line = this.reader.readLine();
                         if(line != null){
                             if (line.matches("\\s*")) {//Percorre enquanto houver linhas vazias
+                                System.out.format("%4d  %s\n", currentLine+1, line);
                                 currentLine++;
+
                             } else {
                                 System.out.format("%4d  %s\n", currentLine+1, line);
                                 return true;

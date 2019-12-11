@@ -19,7 +19,7 @@ fibonacci(int limit) void {
                   fib1 = fib2;
                   fib2 = result;
                   if(result<=limit){
-                      print("," ++ result);
+                      print(",%d", result);
                   }; 
              };
              count = count + 1;

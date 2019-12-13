@@ -12,22 +12,17 @@ public class Syntatic {
 
             Token token;
             while(lexicalAnalyzer.hasMoreTokens()){
-                token = lexicalAnalyzer.nextToken();
-                System.out.println(token.toString());
+                try {
+                    token = lexicalAnalyzer.nextToken();
+                    System.out.println(token.toString());
+                } catch (Exception e) {
+                    System.err.println(e);
+                    System.exit(1);
+                }
+
             }
         }
 
     }
 
-    /*Tratando erros Lexicos*/
-    public void printError(int type, String token, int currentLine, int currentColumn) {
-        String[] msg_error = {"Identificador nao iniciado com letra.",
-                "Constante float em formato errado.",
-                "Caracter nao fechado corretamente com '.",
-                "Cadeia de caracteres nao fechada corretamente com '\"'."};
-
-        System.err.println("Erro na linha: " + currentLine + ", coluna: " + currentColumn + ", token: '" + token
-                + "'" + ", msg: " + msg_error[type-1]);
-        System.exit(1);
-    }
 }

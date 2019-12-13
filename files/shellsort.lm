@@ -25,15 +25,15 @@ shellSort(int values[10], int size) int[] {
 main() void {
       int i;
       int unsortedValues[10];
-      repeater(i = 0; 10; 1) {
+      repeater(i = 0; 9; 1) {
            unsortedValues[i] = lastValueRead();
       };
-      repeater(i = 0; 10; 1) {
+      repeater(i = 0; 9; 1) {
            print(unsortedValues[i]);
            print("\n");
       };
       int sortedValues[10] = shellsort(unsortedValues, 10);
-      repeater(i = 0; 10; 1) {
+      repeater(i = 0; 9; 1) {
            print(sortedValues[i]);
            print("\n");
       };

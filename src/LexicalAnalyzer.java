@@ -10,12 +10,10 @@ public class LexicalAnalyzer {
     private String tokenValue;
     private char currentChar;
     private final char LINE_BREAK = '\n';
-    Syntatic syntatic;
     BufferedReader reader;
 
     public LexicalAnalyzer(String filePath) {
         this.filePath = filePath;
-        this.syntatic = new Syntatic ();
 
         try {
             this.reader = new BufferedReader(new FileReader(filePath));
@@ -101,7 +99,7 @@ public class LexicalAnalyzer {
     }
 
     /*Acessando o proximo token*/
-    public Token nextToken() {
+    public Token nextToken() throws Exception {
         /*Inicializando o token e seus atributos*/
         Token token;
         tokenValue = "";
@@ -232,7 +230,7 @@ public class LexicalAnalyzer {
         }
     }
 
-    private TokenCategory analyzeCategory(String tokenValue) {
+    private TokenCategory analyzeCategory(String tokenValue) throws Exception {
         if (isOpeUnary(tokenValue)) {
             return TokenCategory.OPU;
         } else if (LexicalTable.lexemesMap.containsKey(tokenValue)) {
@@ -266,11 +264,8 @@ public class LexicalAnalyzer {
         if (tokenValue.matches("[a-zA-Z][a-zA-Z0-9]*")) {
             return true;
         } else {
-            /*Esse erro sera tratado no Analizador sintatico*/
-            syntatic.printError(1, tokenValue, currentLine, currentColumn);
-
+            return false;
         }
-        return false;
     }
 
     private boolean isCteInt(String tokenValue) {
@@ -280,32 +275,29 @@ public class LexicalAnalyzer {
         return false;
     }
 
-    private boolean isCteFloat(String tokenValue) {
+    private boolean isCteFloat(String tokenValue) throws Exception {
         if (tokenValue.matches("(\\d)+\\.(\\d)+")) {
             return true;
         } else if (tokenValue.matches("(\\d)+\\.")) {
-            /*Esse erro sera tratado no Analizador sintatico*/
-            syntatic.printError(3, tokenValue, currentLine, currentColumn);
+            throw new Exception("Erro na linha: " + currentLine + ", coluna: " + currentColumn + ", token: '" + tokenValue + "'" + ", msg: " + "Constante float em formato errado." );
         }
         return false;
     }
 
-    private boolean isCteChar(String tokenValue) {
+    private boolean isCteChar(String tokenValue) throws Exception {
         if (tokenValue.matches("'(.?)'")) {
             return true;
         } else if (tokenValue.startsWith("'")) {
-            /*Esse erro sera tratado no Analizador sintatico*/
-            syntatic.printError(4, tokenValue, currentLine, currentColumn);
+            throw new Exception("Erro na linha: " + currentLine + ", coluna: " + currentColumn + ", token: '" + tokenValue + "'" + ", msg: " + "Caracter nao fechado corretamente com '." );
         }
         return false;
     }
 
-    private boolean isCteString(String tokenValue) {
+    private boolean isCteString(String tokenValue) throws Exception {
         if (tokenValue.startsWith("\"") && tokenValue.endsWith("\"")) {
             return true;
         } else if (tokenValue.startsWith("\"")) {
-            /*Esse erro sera tratado no Analizador sintatico*/
-            syntatic.printError(5, tokenValue, currentLine, currentColumn);
+            throw new Exception("Erro na linha: " + currentLine + ", coluna: " + currentColumn + ", token: '" + tokenValue + "'" + ", msg: " + "Cadeia de caracteres nao fechada corretamente com '\"'." );
         }
         return false;
     }

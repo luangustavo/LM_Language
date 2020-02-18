@@ -1,3 +1,9 @@
+package lexical;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 public class Syntatic {
     private static LexicalAnalyzer lexicalAnalyzer;
 
@@ -10,7 +16,7 @@ public class Syntatic {
             /*Criando o analisador e passando o arquivo*/
             lexicalAnalyzer = new LexicalAnalyzer(args[0]);
 
-            Token token;
+            LexicalAnalyzer.Token token;
             while(lexicalAnalyzer.hasMoreTokens()){
                 try {
                     token = lexicalAnalyzer.nextToken();
@@ -22,6 +28,8 @@ public class Syntatic {
 
             }
         }
+
+
 
     }
 

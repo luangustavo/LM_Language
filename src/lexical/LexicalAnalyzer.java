@@ -1,6 +1,12 @@
+package lexical;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LexicalAnalyzer {
     private String line;
@@ -327,4 +333,237 @@ public class LexicalAnalyzer {
         return false;
     }
 
-}
+public static class LexicalTable {
+    public static Map<String, TokenCategory> lexemesMap = new HashMap<String, TokenCategory>();
+    public static List<Character> symbolList = new ArrayList<Character>();
+
+    static {
+
+        // Palavras-reservadas
+
+        lexemesMap.put("void", TokenCategory.VOID);
+        lexemesMap.put("int", TokenCategory.INT);
+        lexemesMap.put("float", TokenCategory.FLOAT);
+        lexemesMap.put("char", TokenCategory.CHAR);
+        lexemesMap.put("string", TokenCategory.STRING);
+        lexemesMap.put("bool", TokenCategory.BOOL);
+        lexemesMap.put("return", TokenCategory.RETURN);
+        lexemesMap.put("main", TokenCategory.MAIN);
+        lexemesMap.put("read", TokenCategory.READ);
+        lexemesMap.put("print", TokenCategory.PRINT);
+        lexemesMap.put("if", TokenCategory.IF);
+        lexemesMap.put("elif", TokenCategory.ELIF);
+        lexemesMap.put("else", TokenCategory.ELSE);
+        lexemesMap.put("when", TokenCategory.WHEN);
+        lexemesMap.put("repeater", TokenCategory.REPEATER);
+        lexemesMap.put("true", TokenCategory.CTEBOOL);
+        lexemesMap.put("false", TokenCategory.CTEBOOL);
+        lexemesMap.put("null", TokenCategory.NULL);
+
+        // Operadores
+
+        lexemesMap.put("+", TokenCategory.OPA);
+        lexemesMap.put("-", TokenCategory.OPA);
+        lexemesMap.put("*", TokenCategory.OPM);
+        lexemesMap.put("/", TokenCategory.OPM);
+        lexemesMap.put("^", TokenCategory.OPE);
+
+        lexemesMap.put("<", TokenCategory.ORC);
+        lexemesMap.put(">", TokenCategory.ORC);
+        lexemesMap.put("<=", TokenCategory.ORC);
+        lexemesMap.put(">=", TokenCategory.ORC);
+        lexemesMap.put("==", TokenCategory.ORE);
+        lexemesMap.put("!=", TokenCategory.ORE);
+
+        lexemesMap.put("and", TokenCategory.AND);
+        lexemesMap.put("or", TokenCategory.OR);
+        lexemesMap.put("not", TokenCategory.NOT);
+
+        lexemesMap.put("=", TokenCategory.ATR);
+        lexemesMap.put("++", TokenCategory.CONCAT);
+
+        // Definidores de escopo
+
+        lexemesMap.put("{", TokenCategory.OK);
+        lexemesMap.put("}", TokenCategory.CK);
+
+        // Delimitadores
+
+        lexemesMap.put("(", TokenCategory.OP);
+        lexemesMap.put(")", TokenCategory.CP);
+        lexemesMap.put("[", TokenCategory.OB);
+        lexemesMap.put("]", TokenCategory.CB);
+
+        // Separadores
+
+        lexemesMap.put(",", TokenCategory.SPTR);
+
+        // Terminador de instrucao
+
+        lexemesMap.put(";", TokenCategory.SCO);
+
+        // Lista de simbolos
+
+        symbolList.add(' ');
+        symbolList.add('.');
+        symbolList.add(',');
+        symbolList.add(':');
+        symbolList.add(';');
+        symbolList.add('!');
+        symbolList.add('?');
+        symbolList.add('+');
+        symbolList.add('-');
+        symbolList.add('*');
+        symbolList.add('/');
+        symbolList.add('\\');
+        symbolList.add('_');
+        symbolList.add('<');
+        symbolList.add('>');
+        symbolList.add('=');
+        symbolList.add('(');
+        symbolList.add(')');
+        symbolList.add('[');
+        symbolList.add(']');
+        symbolList.add('{');
+        symbolList.add('}');
+        symbolList.add('\'');
+        symbolList.add('"');
+        symbolList.add('#');
+        symbolList.add('@');
+        symbolList.add('%');
+        symbolList.add('&');
+        symbolList.add('$');
+        symbolList.add('^');
+        symbolList.add('|');
+    }
+}public static class Syntatic {
+    private static LexicalAnalyzer lexicalAnalyzer;
+
+    public Syntatic (){
+    }
+
+    public static void main(String[] args) {
+        //if(args.length>0) {
+
+            /*Criando o analisador e passando o arquivo*/
+            //lexicalAnalyzer = new LexicalAnalyzer(args[0]);
+            lexicalAnalyzer = new LexicalAnalyzer("files/alomundo.lm");
+
+
+
+            Token token;
+            while(lexicalAnalyzer.hasMoreTokens()){
+                try {
+                    token = lexicalAnalyzer.nextToken();
+                    System.out.println(token.toString());
+                } catch (Exception e) {
+                    System.err.println(e);
+                    System.exit(1);
+                }
+
+            }
+        //}
+
+    }
+
+}public static class Token {
+    private String value;
+    private TokenCategory category;
+    private int line;
+    private int column;
+
+    public Token(String tokenValue, int tokenBeginLine, int tokenBeginColumn, TokenCategory tokenCategory) {
+        this.value = tokenValue;
+        this.category = tokenCategory;
+        this.line = tokenBeginLine;
+        this.column = tokenBeginColumn;
+    }
+    @Override
+    public String toString() {
+        return String.format("          [%04d, %04d] (%04d, %20s) {%s}", line+1, column+1, category.getCategoryValue(), category.name(), value);
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public TokenCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(TokenCategory category) {
+        this.category = category;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+}public enum TokenCategory {
+    MAIN(1),
+    ID(2),
+    VOID(3),
+    INT(4),
+    BOOL(5),
+    CHAR(6),
+    STRING(7),
+    FLOAT(8),
+    OK(9),
+    CK(10),
+    OP(11),
+    CP(12),
+    OB(13),
+    CB(14),
+    SCO(15),
+    SPTR(16),
+    CTEINT(17),
+    CTEFLOAT(18),
+    CTEBOOL(19),
+    CTECHAR(20),
+    CTESTRING(21),
+    IF(22),
+    ELSE(23),
+    ELIF(24),
+    REPEATER(25),
+    WHEN(26),
+    PRINT(27),
+    READ(28),
+    RETURN(29),
+    AND(30),
+    OR(31),
+    NOT(32),
+    OPA(33),
+    OPM(34),
+    OPE(35),
+    OPU(36),
+    ORC(37),
+    ORE(38),
+    ATR(39),
+    CONCAT(40),
+    NULL(41);
+
+    private int value;
+
+    private TokenCategory(int value) {
+        this.value = value;
+    }
+
+    public int getCategoryValue() {
+        return value;
+    }
+}}

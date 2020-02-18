@@ -1,10 +1,12 @@
+package lexical;
+
 public class Token {
     private String value;
-    private TokenCategory category;
+    private LexicalAnalyzer.TokenCategory category;
     private int line;
     private int column;
 
-    public Token(String tokenValue, int tokenBeginLine, int tokenBeginColumn, TokenCategory tokenCategory) {
+    public Token(String tokenValue, int tokenBeginLine, int tokenBeginColumn, LexicalAnalyzer.TokenCategory tokenCategory) {
         this.value = tokenValue;
         this.category = tokenCategory;
         this.line = tokenBeginLine;
@@ -23,11 +25,11 @@ public class Token {
         this.value = value;
     }
 
-    public TokenCategory getCategory() {
+    public LexicalAnalyzer.TokenCategory getCategory() {
         return category;
     }
 
-    public void setCategory(TokenCategory category) {
+    public void setCategory(LexicalAnalyzer.TokenCategory category) {
         this.category = category;
     }
 

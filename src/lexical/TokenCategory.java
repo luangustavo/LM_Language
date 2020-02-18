@@ -1,3 +1,5 @@
+package lexical;
+
 public enum TokenCategory {
     MAIN(1),
     ID(2),

@@ -1,0 +1,529 @@
+   1  fibonacci(int limit) void {
+          FUNCTIONS MAIN
+          'ID' PARAMS RETURNTYPE ESCOPE FUNCTIONS
+          [0001, 0001] (0002,                   ID) {fibonacci}
+          'OP' PARAMSEXT
+          [0001, 0010] (0011,                   OP) {(}
+          LISTPARAMS 'CP'
+          TYPE NAME LISTPARAMSEXT
+          'INT'
+          [0001, 0011] (0004,                  INT) {int}
+          'ID' NAMEEXT
+          [0001, 0015] (0002,                   ID) {limit}
+          ε
+          ε
+          [0001, 0020] (0012,                   CP) {)}
+          'VOID'
+          [0001, 0022] (0003,                 VOID) {void}
+          'OK' COMMANDS 'CK' 'SCO' 
+          [0001, 0027] (0009,                   OK) {{}
+   2      int count; 
+          CMD 'SCO' COMMANDS
+          DECLARATION
+          TYPE NAME
+          'INT'
+          [0002, 0005] (0004,                  INT) {int}
+          'ID' NAMEEXT
+          [0002, 0009] (0002,                   ID) {count}
+          ε
+          [0002, 0014] (0015,                  SCO) {;}
+   3      int fib1; 
+          CMD 'SCO' COMMANDS
+          DECLARATION
+          TYPE NAME
+          'INT'
+          [0003, 0005] (0004,                  INT) {int}
+          'ID' NAMEEXT
+          [0003, 0009] (0002,                   ID) {fib1}
+          ε
+          [0003, 0013] (0015,                  SCO) {;}
+   4      int fib2; 
+          CMD 'SCO' COMMANDS
+          DECLARATION
+          TYPE NAME
+          'INT'
+          [0004, 0005] (0004,                  INT) {int}
+          'ID' NAMEEXT
+          [0004, 0009] (0002,                   ID) {fib2}
+          ε
+          [0004, 0013] (0015,                  SCO) {;}
+   5      int result;
+          CMD 'SCO' COMMANDS
+          DECLARATION
+          TYPE NAME
+          'INT'
+          [0005, 0005] (0004,                  INT) {int}
+          'ID' NAMEEXT
+          [0005, 0009] (0002,                   ID) {result}
+          ε
+          [0005, 0015] (0015,                  SCO) {;}
+   6      fib1 = 1;
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0006, 0005] (0002,                   ID) {fib1}
+          ATTRIBUTION
+          NAMEEXT 'ATR' VALUE
+          ε
+          [0006, 0010] (0039,                  ATR) {=}
+          EA
+          TA EAR
+          PA TAR
+          FA PAFAT
+          CONSTANT
+          'CTEINT'
+          [0006, 0012] (0017,               CTEINT) {1}
+          ε
+          ε
+          ε
+          [0006, 0013] (0015,                  SCO) {;}
+   7      fib2 = 1;
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0007, 0005] (0002,                   ID) {fib2}
+          ATTRIBUTION
+          NAMEEXT 'ATR' VALUE
+          ε
+          [0007, 0010] (0039,                  ATR) {=}
+          EA
+          TA EAR
+          PA TAR
+          FA PAFAT
+          CONSTANT
+          'CTEINT'
+          [0007, 0012] (0017,               CTEINT) {1}
+          ε
+          ε
+          ε
+          [0007, 0013] (0015,                  SCO) {;}
+   8      if(limit == 0) { 
+          CMD 'SCO' COMMANDS
+          IFELSE
+          IF ELIF ELSE
+          'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          [0008, 0005] (0022,                   IF) {if}
+          [0008, 0007] (0011,                   OP) {(}
+          TB EBR
+          FB TBR
+          EA EREL
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0008, 0008] (0002,                   ID) {limit}
+          ε
+          ε
+          ε
+          ε
+          'ORE' EA
+          [0008, 0014] (0038,                  ORE) {==}
+          TA EAR
+          PA TAR
+          FA PAFAT
+          CONSTANT
+          'CTEINT'
+          [0008, 0017] (0017,               CTEINT) {0}
+          ε
+          ε
+          ε
+          ε
+          ε
+          [0008, 0018] (0012,                   CP) {)}
+          [0008, 0020] (0009,                   OK) {{}
+   9          print("0");
+          CMD 'SCO' COMMANDS
+          PRINT
+          'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          [0009, 0009] (0027,                PRINT) {print}
+          [0009, 0014] (0011,                   OP) {(}
+          'CTESTRING' MESSAGEEXT
+          [0009, 0015] (0021,            CTESTRING) {"0"}
+          ε
+          ε
+          [0009, 0018] (0012,                   CP) {)}
+          [0009, 0019] (0015,                  SCO) {;}
+  10      }else{
+          ε
+          [0010, 0005] (0010,                   CK) {}}
+          ε
+          'ELSE' 'OK' COMMANDS 'CK'
+          [0010, 0006] (0023,                 ELSE) {else}
+          [0010, 0010] (0009,                   OK) {{}
+  11          when(result <= limit) {
+          CMD 'SCO' COMMANDS
+          WHEN
+          'WHEN' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          [0011, 0009] (0026,                 WHEN) {when}
+          [0011, 0013] (0011,                   OP) {(}
+          TB EBR
+          FB TBR
+          EA EREL
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0011, 0014] (0002,                   ID) {result}
+          ε
+          ε
+          ε
+          ε
+          'ORC' EA
+          [0011, 0021] (0037,                  ORC) {<=}
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0011, 0024] (0002,                   ID) {limit}
+          ε
+          ε
+          ε
+          ε
+          ε
+          ε
+          [0011, 0029] (0012,                   CP) {)}
+          [0011, 0031] (0009,                   OK) {{}
+  12               if(count == 0){
+          CMD 'SCO' COMMANDS
+          IFELSE
+          IF ELIF ELSE
+          'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          [0012, 0014] (0022,                   IF) {if}
+          [0012, 0016] (0011,                   OP) {(}
+          TB EBR
+          FB TBR
+          EA EREL
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0012, 0017] (0002,                   ID) {count}
+          ε
+          ε
+          ε
+          ε
+          'ORE' EA
+          [0012, 0023] (0038,                  ORE) {==}
+          TA EAR
+          PA TAR
+          FA PAFAT
+          CONSTANT
+          'CTEINT'
+          [0012, 0026] (0017,               CTEINT) {0}
+          ε
+          ε
+          ε
+          ε
+          ε
+          [0012, 0027] (0012,                   CP) {)}
+          [0012, 0028] (0009,                   OK) {{}
+  13                    print("0");
+          CMD 'SCO' COMMANDS
+          PRINT
+          'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          [0013, 0019] (0027,                PRINT) {print}
+          [0013, 0024] (0011,                   OP) {(}
+          'CTESTRING' MESSAGEEXT
+          [0013, 0025] (0021,            CTESTRING) {"0"}
+          ε
+          ε
+          [0013, 0028] (0012,                   CP) {)}
+          [0013, 0029] (0015,                  SCO) {;}
+  14               }elif(count < 2) { 
+          ε
+          [0014, 0014] (0010,                   CK) {}}
+          'ELIF' 'OP' EB 'CP' 'OK' COMMANDS 'CK' ELIF
+          [0014, 0015] (0024,                 ELIF) {elif}
+          [0014, 0019] (0011,                   OP) {(}
+          TB EBR
+          FB TBR
+          EA EREL
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0014, 0020] (0002,                   ID) {count}
+          ε
+          ε
+          ε
+          ε
+          'ORC' EA
+          [0014, 0026] (0037,                  ORC) {<}
+          TA EAR
+          PA TAR
+          FA PAFAT
+          CONSTANT
+          'CTEINT'
+          [0014, 0028] (0017,               CTEINT) {2}
+          ε
+          ε
+          ε
+          ε
+          ε
+          [0014, 0029] (0012,                   CP) {)}
+          [0014, 0031] (0009,                   OK) {{}
+  15                    print(",1");
+          CMD 'SCO' COMMANDS
+          PRINT
+          'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          [0015, 0019] (0027,                PRINT) {print}
+          [0015, 0024] (0011,                   OP) {(}
+          'CTESTRING' MESSAGEEXT
+          [0015, 0025] (0021,            CTESTRING) {",1"}
+          ε
+          ε
+          [0015, 0029] (0012,                   CP) {)}
+          [0015, 0030] (0015,                  SCO) {;}
+  16                    result = 1;
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0016, 0019] (0002,                   ID) {result}
+          ATTRIBUTION
+          NAMEEXT 'ATR' VALUE
+          ε
+          [0016, 0026] (0039,                  ATR) {=}
+          EA
+          TA EAR
+          PA TAR
+          FA PAFAT
+          CONSTANT
+          'CTEINT'
+          [0016, 0028] (0017,               CTEINT) {1}
+          ε
+          ε
+          ε
+          [0016, 0029] (0015,                  SCO) {;}
+  17               }else { 
+          ε
+          [0017, 0014] (0010,                   CK) {}}
+          'ELSE' 'OK' COMMANDS 'CK'
+          [0017, 0015] (0023,                 ELSE) {else}
+          [0017, 0020] (0009,                   OK) {{}
+  18                    result = fib1 + fib2;
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0018, 0019] (0002,                   ID) {result}
+          ATTRIBUTION
+          NAMEEXT 'ATR' VALUE
+          ε
+          [0018, 0026] (0039,                  ATR) {=}
+          EA
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0018, 0028] (0002,                   ID) {fib1}
+          ε
+          ε
+          ε
+          'OPA' TA EAR
+          [0018, 0033] (0033,                  OPA) {+}
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0018, 0035] (0002,                   ID) {fib2}
+          ε
+          ε
+          ε
+          ε
+          [0018, 0039] (0015,                  SCO) {;}
+  19                    fib1 = fib2;
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0019, 0019] (0002,                   ID) {fib1}
+          ATTRIBUTION
+          NAMEEXT 'ATR' VALUE
+          ε
+          [0019, 0024] (0039,                  ATR) {=}
+          EA
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0019, 0026] (0002,                   ID) {fib2}
+          ε
+          ε
+          ε
+          ε
+          [0019, 0030] (0015,                  SCO) {;}
+  20                    fib2 = result;
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0020, 0019] (0002,                   ID) {fib2}
+          ATTRIBUTION
+          NAMEEXT 'ATR' VALUE
+          ε
+          [0020, 0024] (0039,                  ATR) {=}
+          EA
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0020, 0026] (0002,                   ID) {result}
+          ε
+          ε
+          ε
+          ε
+          [0020, 0032] (0015,                  SCO) {;}
+  21                    if(result<=limit){
+          CMD 'SCO' COMMANDS
+          IFELSE
+          IF ELIF ELSE
+          'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          [0021, 0019] (0022,                   IF) {if}
+          [0021, 0021] (0011,                   OP) {(}
+          TB EBR
+          FB TBR
+          EA EREL
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0021, 0022] (0002,                   ID) {result}
+          ε
+          ε
+          ε
+          ε
+          'ORC' EA
+          [0021, 0028] (0037,                  ORC) {<=}
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0021, 0030] (0002,                   ID) {limit}
+          ε
+          ε
+          ε
+          ε
+          ε
+          ε
+          [0021, 0035] (0012,                   CP) {)}
+          [0021, 0036] (0009,                   OK) {{}
+  22                        print(",%d", result);
+          CMD 'SCO' COMMANDS
+          PRINT
+          'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          [0022, 0023] (0027,                PRINT) {print}
+          [0022, 0028] (0011,                   OP) {(}
+          'CTESTRING' MESSAGEEXT
+          [0022, 0029] (0021,            CTESTRING) {",%d"}
+          ε
+          'SPTR' NAME PRINTEXT
+          [0022, 0034] (0016,                 SPTR) {,}
+          'ID' NAMEEXT
+          [0022, 0036] (0002,                   ID) {result}
+          ε
+          ε
+          [0022, 0042] (0012,                   CP) {)}
+          [0022, 0043] (0015,                  SCO) {;}
+  23                    }; 
+          ε
+          [0023, 0019] (0010,                   CK) {}}
+          ε
+          ε
+          [0023, 0020] (0015,                  SCO) {;}
+  24               };
+          ε
+          [0024, 0014] (0010,                   CK) {}}
+          [0024, 0015] (0015,                  SCO) {;}
+  25               count = count + 1;
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0025, 0014] (0002,                   ID) {count}
+          ATTRIBUTION
+          NAMEEXT 'ATR' VALUE
+          ε
+          [0025, 0020] (0039,                  ATR) {=}
+          EA
+          TA EAR
+          PA TAR
+          FA PAFAT
+          ID
+          'ID' IDFAT
+          [0025, 0022] (0002,                   ID) {count}
+          ε
+          ε
+          ε
+          'OPA' TA EAR
+          [0025, 0028] (0033,                  OPA) {+}
+          PA TAR
+          FA PAFAT
+          CONSTANT
+          'CTEINT'
+          [0025, 0030] (0017,               CTEINT) {1}
+          ε
+          ε
+          ε
+          [0025, 0031] (0015,                  SCO) {;}
+  26           };
+          ε
+          [0026, 0010] (0010,                   CK) {}}
+          [0026, 0011] (0015,                  SCO) {;}
+  27      }; 
+          ε
+          [0027, 0005] (0010,                   CK) {}}
+          [0027, 0006] (0015,                  SCO) {;}
+  28  };
+          ε
+          [0028, 0001] (0010,                   CK) {}}
+          [0028, 0002] (0015,                  SCO) {;}
+  29  main() void {
+          ε
+          'MAIN' 'OP' 'CP' 'VOID' ESCOPE
+          [0029, 0001] (0001,                 MAIN) {main}
+          [0029, 0005] (0011,                   OP) {(}
+          [0029, 0006] (0012,                   CP) {)}
+          [0029, 0008] (0003,                 VOID) {void}
+          'OK' COMMANDS 'CK' 'SCO' 
+          [0029, 0013] (0009,                   OK) {{}
+  30      int limit; 
+          CMD 'SCO' COMMANDS
+          DECLARATION
+          TYPE NAME
+          'INT'
+          [0030, 0005] (0004,                  INT) {int}
+          'ID' NAMEEXT
+          [0030, 0009] (0002,                   ID) {limit}
+          ε
+          [0030, 0014] (0015,                  SCO) {;}
+  31      read(limit);
+          CMD 'SCO' COMMANDS
+          READ
+          'READ' 'OP' READEXT 'CP'
+          [0031, 0005] (0028,                 READ) {read}
+          [0031, 0009] (0011,                   OP) {(}
+          NAME READEXTR
+          'ID' NAMEEXT
+          [0031, 0010] (0002,                   ID) {limit}
+          ε
+          ε
+          [0031, 0015] (0012,                   CP) {)}
+          [0031, 0016] (0015,                  SCO) {;}
+  32      fibonacci(limit);
+          CMD 'SCO' COMMANDS
+          'ID' CMDEXT
+          [0032, 0005] (0002,                   ID) {fibonacci}
+          FUNCTIONCALL
+          'OP' LISTPARAMSCALL 'CP'
+          [0032, 0014] (0011,                   OP) {(}
+          PARAMITEM LISTPARAMSCALLEXT
+          NAME
+          'ID' NAMEEXT
+          [0032, 0015] (0002,                   ID) {limit}
+          ε
+          ε
+          [0032, 0020] (0012,                   CP) {)}
+          [0032, 0021] (0015,                  SCO) {;}
+  33  };
+          ε
+          [0033, 0001] (0010,                   CK) {}}
+          [0033, 0002] (0015,                  SCO) {;}

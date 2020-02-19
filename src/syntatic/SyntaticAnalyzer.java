@@ -14,19 +14,20 @@ public class SyntaticAnalyzer {
     public static void analyzer(String[] args) {
         if(args.length>0) {
 
-        /*Criando o analisador e passando o arquivo*/
-        lexicalAnalyzer = new LexicalAnalyzer(args[0]);
+            /*Criando o analisador e passando o arquivo*/
+            lexicalAnalyzer = new LexicalAnalyzer(args[0]);
 
-        if(lexicalAnalyzer.hasMoreTokens()){
-            try {
-                token = lexicalAnalyzer.nextToken();
-                MODULE();
-            } catch (Exception e) {
-                System.err.println(e);
-                System.exit(1);
+            if(lexicalAnalyzer.hasMoreTokens()){
+                try {
+                    token = lexicalAnalyzer.nextToken();
+                    MODULE();
+                } catch (Exception e) {
+                    System.err.println(e);
+                    System.exit(1);
+                }
+
             }
 
-        }
         }
 
     }

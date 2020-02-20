@@ -37,7 +37,7 @@
       <recent name="C:\Users\Luan\IdeaProjects\LM_Language\files" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Syntatic (1)">
+  <component name="RunManager" selected="Application.SyntaticAnalyzer">
     <configuration name="Syntatic (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="lexical.Syntatic" />
       <module name="LM_Language" />
@@ -73,8 +73,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Syntatic (1)" />
         <item itemvalue="Application.SyntaticAnalyzer" />
+        <item itemvalue="Application.Syntatic (1)" />
         <item itemvalue="Application.Syntatic" />
       </list>
     </recent_temporary>
@@ -121,26 +121,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576254730837" />
-    <state width="1877" height="95" key="GridCell.Tab.0.bottom" timestamp="1582119511160">
+    <state width="1877" height="307" key="GridCell.Tab.0.bottom" timestamp="1582156845206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="95" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582119511160" />
-    <state width="1877" height="95" key="GridCell.Tab.0.center" timestamp="1582119511160">
+    <state width="1877" height="307" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
+    <state width="1877" height="307" key="GridCell.Tab.0.center" timestamp="1582156845206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="95" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582119511160" />
-    <state width="1877" height="95" key="GridCell.Tab.0.left" timestamp="1582119511159">
+    <state width="1877" height="307" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
+    <state width="1877" height="307" key="GridCell.Tab.0.left" timestamp="1582156845206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="95" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582119511159" />
-    <state width="1877" height="95" key="GridCell.Tab.0.right" timestamp="1582119511160">
+    <state width="1877" height="307" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
+    <state width="1877" height="307" key="GridCell.Tab.0.right" timestamp="1582156845206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="95" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582119511160" />
-    <state x="656" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1582118924355">
+    <state width="1877" height="307" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
+    <state x="656" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1582151222881">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582118924355" />
+    <state x="656" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582151222881" />
     <state x="604" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1582050087992">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

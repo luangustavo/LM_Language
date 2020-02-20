@@ -1,9 +1,5 @@
 package lexical;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
 public class Syntatic {
     private static LexicalAnalyzer lexicalAnalyzer;
 

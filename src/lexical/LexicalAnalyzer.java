@@ -480,7 +480,7 @@ public static class LexicalTable {
     }
     @Override
     public String toString() {
-        return String.format("          [%04d, %04d] (%04d, %20s) {%s}", line+1, column+1, category.getCategoryValue(), category.name(), value);
+        return String.format("              [%04d, %04d] (%04d, %20s) {%s}", line+1, column+1, category.getCategoryValue(), category.name(), value);
     }
 
     public String getValue() {

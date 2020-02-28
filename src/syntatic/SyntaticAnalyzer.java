@@ -1,6 +1,7 @@
 package syntatic;
 
 import lexical.LexicalAnalyzer;
+
 import lexical.Token;
 
 public class SyntaticAnalyzer {
@@ -8,63 +9,87 @@ public class SyntaticAnalyzer {
     private static LexicalAnalyzer lexicalAnalyzer;
     
 
-    public SyntaticAnalyzer (){
-    }
+    public SyntaticAnalyzer ( LexicalAnalyzer lexicalAnalyzer){
 
-    public static void main(String[] args) {
-        if(args.length>0) {
-
-            /*Criando o analisador e passando o arquivo*/
-            lexicalAnalyzer = new LexicalAnalyzer(args[0]);
-
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                    MODULE();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
-
+        this.lexicalAnalyzer = lexicalAnalyzer;
+        if(lexicalAnalyzer.hasMoreTokens()){
+            try {
+                token = lexicalAnalyzer.nextToken();
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
-
     }
 
 
     public static void MODULE() {
         System.out.println("          MODULE = FUNCTIONS MAIN");
 
-        FUNCTIONS();
-        MAIN();
+        try {
+            FUNCTIONS();
+            MAIN();
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
     }
 
-    public static void FUNCTIONS(){
+    public static void FUNCTIONS() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
 
-            System.out.println("          FUNCTIONS = 'ID' PARAMS RETURNTYPE ESCOPE FUNCTIONS");
+            try {
 
-            System.out.println(token.toString());
+                System.out.println("          FUNCTIONS = 'ID' PARAMS RETURNTYPE ESCOPE ';' FUNCTIONS");
 
-            /*Next Token*/
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                    PARAMS();
-                    RETURNTYPE();
-                    ESCOPE();
-                    FUNCTIONS();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
+                System.out.println(token.toString());
+
+                /*Next Token*/
+                if(lexicalAnalyzer.hasMoreTokens()){
+
+                        token = lexicalAnalyzer.nextToken();
+                        PARAMS();
+                        RETURNTYPE();
+                        ESCOPE();
+
+                        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SCO)){
+
+                            System.out.println(token.toString());
+
+                            if(lexicalAnalyzer.hasMoreTokens()){
+                                try {
+                                    token = lexicalAnalyzer.nextToken();
+                                    FUNCTIONS();
+                                } catch (Exception e) {
+                                    System.err.println(e);
+                                    System.exit(1);
+                                }
+
+                            }
+                            else{
+                                //ACEITO
+                                System.exit(0);
+                                //System.out.println("          ERROR: EOF inesperado.");
+                            }
+                        }
+                        else{
+                            throw new Exception("          ERROR: Token ';' esperado. L:"+ token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
+                            //System.out.println("          ERROR: Token 'SCO' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        }
+
+                }
+                else{
+                    throw new Exception("          ERROR: EOF inesperado." );
+
+                    //System.out.println("          ERROR: EOF inesperado.");
                 }
 
-            }
-            else{
-                System.out.println("          ERROR: EOF inesperado.");
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
         }
         else{
@@ -72,17 +97,18 @@ public class SyntaticAnalyzer {
         }
     }
 
-    public static void MAIN(){
+    public static void MAIN() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.MAIN)){
 
-            System.out.println("          MAIN = 'MAIN' 'OP' 'CP' 'VOID' ESCOPE");
+            try {
+
+            System.out.println("          MAIN = 'main' '(' ')' 'void' ESCOPE ';'");
 
             System.out.println(token.toString());
 
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
                     token = lexicalAnalyzer.nextToken();
 
                     if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)) {
@@ -92,7 +118,6 @@ public class SyntaticAnalyzer {
 
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
                                 token = lexicalAnalyzer.nextToken();
 
                                 if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CP)) {
@@ -101,7 +126,7 @@ public class SyntaticAnalyzer {
 
                                     /*Next Token*/
                                     if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
+
                                             token = lexicalAnalyzer.nextToken();
 
                                             if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.VOID)) {
@@ -110,146 +135,146 @@ public class SyntaticAnalyzer {
 
                                                 /*Next Token*/
                                                 if(lexicalAnalyzer.hasMoreTokens()){
-                                                    try {
+
                                                         token = lexicalAnalyzer.nextToken();
                                                         ESCOPE();
-                                                    } catch (Exception e) {
-                                                        System.err.println(e);
-                                                        System.exit(1);
-                                                    }
 
+                                                        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SCO)){
+
+                                                            System.out.println(token.toString());
+
+                                                            if(lexicalAnalyzer.hasMoreTokens()){
+
+                                                                    token = lexicalAnalyzer.nextToken();
+
+
+                                                            }
+                                                            else{
+                                                                //ACEITO
+                                                                System.exit(0);
+                                                               // System.out.println("          ERROR: EOF inesperado.");
+                                                            }
+                                                        }
+                                                        else{
+                                                            throw new Exception("          ERROR: Token ';' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                                        }
                                                 }
                                                 else{
-                                                    System.out.println("          ERROR: EOF inesperado.");
+                                                    throw new Exception("          ERROR: EOF inesperado.");
                                                 }
 
                                             }
                                             else{
-                                                System.out.println("          ERROR: Token 'VOID' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                                throw new Exception("          ERROR: Token 'void' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                                             }
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
-
                                     }
                                     else{
-                                        System.out.println("          ERROR: EOF inesperado.");
+                                        throw new Exception("          ERROR: EOF inesperado.");
                                     }
                                 }
                                 else{
-                                    System.out.println("          ERROR: Token 'CP' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                    throw new Exception("          ERROR: Token ')' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                                 }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
-
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
-                        System.out.println("          ERROR: Token 'OP' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Token '(' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                     }
-
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
 
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
         }
         else{
-            System.out.println("          ERROR: Token 'MAIN' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Token 'main' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue() );
         }
     }
 
-    public static void PARAMS(){
+    public static void PARAMS() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)){
-
-            System.out.println("          PARAMS = 'OP' PARAMSEXT");
+            try {
+            System.out.println("          PARAMS = '(' PARAMSEXT");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     PARAMSEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
 
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
         }
         else{
-            System.out.println("          ERROR: Token 'OP' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Token '(' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
 
 
     }
 
-    public static void PARAMSEXT() {
+    public static void PARAMSEXT() throws Exception {
+
+        try {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CP)){
 
-            System.out.println("          PARAMSEXT = 'CP'");
+            System.out.println("          PARAMSEXT = ')'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
 
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+                    token = lexicalAnalyzer.nextToken();
 
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }
         else{
-            System.out.println("          PARAMSEXT = LISTPARAMS 'CP'");
+            System.out.println("          PARAMSEXT = LISTPARAMS ')'");
             LISTPARAMS();
             if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CP)) {
                 System.out.println(token.toString());
 
                 /*Next Token*/
                 if(lexicalAnalyzer.hasMoreTokens()){
-                    try {
-                        token = lexicalAnalyzer.nextToken();
 
-                    } catch (Exception e) {
-                        System.err.println(e);
-                        System.exit(1);
-                    }
-
+                    token = lexicalAnalyzer.nextToken();
                 }
                 else{
-                    System.out.println("          ERROR: EOF inesperado.");
+                    throw new Exception("          ERROR: EOF inesperado.");
                 }
 
 
             }
             else{
-                System.out.println("          ERROR: Token 'CP' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                throw new Exception("          ERROR: Token ')' esperado. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
             }
 
 
+        }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
 
     }
@@ -258,34 +283,36 @@ public class SyntaticAnalyzer {
 
         System.out.println("          LISTPARAMS = TYPE NAME LISTPARAMSEXT");
 
-        TYPE();
-        NAME();
-        LISTPARAMSEXT();
+        try{
+            TYPE();
+            NAME();
+            LISTPARAMSEXT();
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
     }
 
     public static void LISTPARAMSEXT(){
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SPTR)){
+            try {
+                System.out.println("          LISTPARAMSEXT = ';' LISTPARAMS");
 
-            System.out.println("          LISTPARAMSEXT = 'SPTR' LISTPARAMS");
+                System.out.println(token.toString());
 
-            System.out.println(token.toString());
-
-            /*Next Token*/
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                    LISTPARAMS();
-
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
+                /*Next Token*/
+                if(lexicalAnalyzer.hasMoreTokens()){
+                        token = lexicalAnalyzer.nextToken();
+                        LISTPARAMS();
                 }
-
-            }
-            else{
-                System.out.println("          ERROR: EOF inesperado.");
+                else{
+                    throw new Exception("          ERROR: EOF inesperado.");
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -297,109 +324,99 @@ public class SyntaticAnalyzer {
 
     public static void TYPE(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.INT)){
-            System.out.println("          TYPE = 'INT'");
+            System.out.println("          TYPE = 'int'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.BOOL)){
-            System.out.println("          TYPE = 'BOOL'");
+            System.out.println("          TYPE = 'bool'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CHAR)){
-            System.out.println("          TYPE = 'CHAR'");
+            System.out.println("          TYPE = 'char'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.STRING)){
-            System.out.println("          TYPE = 'STRING'");
+            System.out.println("          TYPE = 'string'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.FLOAT)){
-            System.out.println("          TYPE = 'FLOAT'");
+            System.out.println("          TYPE = 'float'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else{
-            System.out.println("          ERROR: Tokens 'INT', 'BOOL', 'CHAR', 'STRING', 'FLOAT' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'int', 'bool', 'char', 'string', 'float' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+        }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
 
     }
 
     public static void RETURNTYPE(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.VOID)){
-            System.out.println("          RETURNTYPE = 'VOID'");
+            System.out.println("          RETURNTYPE = 'void'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }
@@ -409,80 +426,83 @@ public class SyntaticAnalyzer {
             TYPE();
             RETURNTYPEEXT();
         }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
     }
 
     public static void RETURNTYPEEXT(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OB)){
-            System.out.println("          RETURNTYPEEXT = 'OB' 'CB'");
+            System.out.println("          RETURNTYPEEXT = '[' ']'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
                     if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CB)){
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
-                        System.out.println("          ERROR: Tokens 'CB' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens ']' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                     }
 
-
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }
         else{
             System.out.println("          RETURNTYPEEXT = ε");
         }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
     }
 
-    public static void NAME(){
+    public static void NAME() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
+            try {
             System.out.println("          NAME = 'ID' NAMEEXT");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
                     token = lexicalAnalyzer.nextToken();
                     NAMEEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'ID' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'ID' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
 
     }
@@ -490,12 +510,13 @@ public class SyntaticAnalyzer {
     public static void NAMEEXT(){
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OB)){
-            System.out.println("          NAMEEXT = 'OB' EA 'CB'");
+            try {
+            System.out.println("          NAMEEXT = '[' EA ']'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     EA();
 
@@ -504,29 +525,26 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
 
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
-                        System.out.println("          ERROR: Tokens 'CB' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens ']' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -536,55 +554,17 @@ public class SyntaticAnalyzer {
 
     }
 
-    /*public static void INDEX() {
 
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
-            System.out.println("          'ID'");
-
-            System.out.println(token.toString());
-            //Next Token
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
-            }
-            else{
-                System.out.println("          ERROR: EOF inesperado.");
-            }
-        }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CTEINT)){
-            System.out.println("          'CTEINT'");
-
-            System.out.println(token.toString());
-            //Next Token
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
-            }
-            else{
-                System.out.println("          ERROR: EOF inesperado.");
-            }
-        }else{
-            System.out.println("          ERROR: Tokens 'ID', 'CTEINT' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-        }
-
-    }*/
-
-    public static void ESCOPE(){
+    public static void ESCOPE() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OK)){
-            System.out.println("          ESCOPE = 'OK' COMMANDS 'CK' 'SCO' ");
+            try {
+            System.out.println("          ESCOPE = '{' COMMANDS '}' ");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     COMMANDS();
 
@@ -593,13 +573,15 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
+
+                                /*
 
                                 if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SCO)){
 
                                     System.out.println(token.toString());
-                                    /*Next Token*/
+                                    //Next Token
                                     if(lexicalAnalyzer.hasMoreTokens()){
                                         try {
                                             token = lexicalAnalyzer.nextToken();
@@ -616,37 +598,40 @@ public class SyntaticAnalyzer {
                                 else{
                                     System.out.println("          ERROR: Tokens 'SCO' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                                 }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
+                                 */
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
-                        System.out.println("          ERROR: Tokens 'CK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens '}' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'OK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens '{' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
 
     }
 
-    public static void COMMANDS(){
+    public static void COMMANDS() throws Exception {
+
+
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.INT)
                 || token.getCategory().equals(LexicalAnalyzer.TokenCategory.BOOL)
@@ -661,7 +646,9 @@ public class SyntaticAnalyzer {
                 || token.getCategory().equals(LexicalAnalyzer.TokenCategory.REPEATER)
                 || token.getCategory().equals(LexicalAnalyzer.TokenCategory.RETURN)){
 
-            System.out.println("          COMMANDS = CMD 'SCO' COMMANDS");
+            try {
+
+            System.out.println("          COMMANDS = CMD ';' COMMANDS");
 
             CMD();
 
@@ -670,21 +657,22 @@ public class SyntaticAnalyzer {
                 System.out.println(token.toString());
                 /*Next Token*/
                 if(lexicalAnalyzer.hasMoreTokens()){
-                    try {
+
                         token = lexicalAnalyzer.nextToken();
                         COMMANDS();
-                    } catch (Exception e) {
-                        System.err.println(e);
-                        System.exit(1);
-                    }
+
                 }
                 else{
-                    System.out.println("          ERROR: EOF inesperado.");
+                    throw new Exception("          ERROR: EOF inesperado.");
                 }
 
             }
             else{
-                System.out.println("          ERROR: Tokens 'SCO' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                throw new Exception("          ERROR: Tokens ';' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            }
+        } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -697,7 +685,7 @@ public class SyntaticAnalyzer {
     }
 
     public static void CMD(){
-
+        try {
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.INT)
                 || token.getCategory().equals(LexicalAnalyzer.TokenCategory.BOOL)
                 || token.getCategory().equals(LexicalAnalyzer.TokenCategory.CHAR)
@@ -715,16 +703,13 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     CMDEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.PRINT)){
@@ -764,6 +749,10 @@ public class SyntaticAnalyzer {
             RETURN();
 
         }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
     }
 
@@ -771,31 +760,46 @@ public class SyntaticAnalyzer {
 
         System.out.println("          DECLARATION = TYPE NAME");
 
-        TYPE();
-        NAME();
+        try{
+
+            TYPE();
+            NAME();
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void CMDEXT(){
 
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)){
+        try{
 
-            System.out.println("          CMDEXT = FUNCTIONCALL");
+            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)){
 
-
-            FUNCTIONCALL();
-
-        }else{
-
-            System.out.println("          CMDEXT = ATTRIBUTION");
+                System.out.println("          CMDEXT = FUNCTIONCALL");
 
 
-            ATTRIBUTION();
+                FUNCTIONCALL();
+
+            }else{
+
+                System.out.println("          CMDEXT = ATTRIBUTION");
+
+
+                ATTRIBUTION();
+            }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
     public static void ATTRIBUTION(){
 
-        System.out.println("          ATTRIBUTION = NAMEEXT 'ATR' VALUE");
+        try {
+        System.out.println("          ATTRIBUTION = NAMEEXT '=' VALUE");
+
 
         NAMEEXT();
 
@@ -804,95 +808,104 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     VALUE();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }
         else{
 
-            System.out.println("          ERROR: Tokens 'ATR' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens '=' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
+        }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
     public static void VALUE(){
 
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OB)){
+        try{
 
-            System.out.println("          VALUE = ARRAY");
+            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OB)){
 
-            ARRAY();
+                System.out.println("          VALUE = ARRAY");
 
-        }
-        else{
+                ARRAY();
 
-            System.out.println("          VALUE = EA");
+            }
+            else{
 
-            EA();
+                System.out.println("          VALUE = EA");
 
+                EA();
+
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
-    public static void ARRAY(){
+    public static void ARRAY() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OB)){
 
-            System.out.println("          ARRAY = 'OB' ARRAYEXT");
+            try {
+
+            System.out.println("          ARRAY = '[' ARRAYEXT");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     ARRAYEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'OB' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens '[' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
     }
 
     public static void ARRAYEXT(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CB)){
 
-            System.out.println("          ARRAYEXT = 'CB'");
+            System.out.println("          ARRAYEXT = ']'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }
         else{
 
-            System.out.println("          ARRAYEXT = ELEMENTS 'CB'");
+            System.out.println("          ARRAYEXT = ELEMENTS ']'");
 
 
             ELEMENTS();
@@ -901,50 +914,61 @@ public class SyntaticAnalyzer {
                 System.out.println(token.toString());
                 /*Next Token*/
                 if(lexicalAnalyzer.hasMoreTokens()){
-                    try {
+
                         token = lexicalAnalyzer.nextToken();
-                    } catch (Exception e) {
-                        System.err.println(e);
-                        System.exit(1);
-                    }
+
                 }
                 else{
-                    System.out.println("          ERROR: EOF inesperado.");
+                    throw new Exception("          ERROR: EOF inesperado.");
                 }
 
             }
+        }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
     public static void ELEMENTS(){
 
-        System.out.println("          ELEMENTS = CONSTANT ELEMENTSEXT");
+        try{
+
+            System.out.println("          ELEMENTS = EB ELEMENTSEXT");
 
 
-        CONSTANT();
-        ELEMENTSEXT();
+            EB();
+            ELEMENTSEXT();
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void ELEMENTSEXT(){
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SPTR)){
 
-            System.out.println("          ELEMENTSEXT = 'SPTR' ELEMENTS");
+            try {
+
+            System.out.println("          ELEMENTSEXT = ',' ELEMENTS");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     ELEMENTS();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
         }
         else{
@@ -952,58 +976,60 @@ public class SyntaticAnalyzer {
         }
     }
 
-    public static void FUNCTIONCALL(){
+    public static void FUNCTIONCALL() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)){
 
-            System.out.println("          FUNCTIONCALL = 'OP' FUNCTIONCALLEXT");
+            try {
+
+            System.out.println("          FUNCTIONCALL = '(' FUNCTIONCALLEXT");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     FUNCTIONCALLEXT();
 
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'OP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens '(' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
     }
 
     public static void FUNCTIONCALLEXT(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CP)){
 
-            System.out.println("          FUNCTIONCALLEXT = 'CP'");
+            System.out.println("          FUNCTIONCALLEXT = ')'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }
         else{
 
-            System.out.println("          FUNCTIONCALLEXT = LISTPARAMSCALL 'CP'");
+            System.out.println("          FUNCTIONCALLEXT = LISTPARAMSCALL ')'");
 
             LISTPARAMSCALL();
 
@@ -1025,9 +1051,13 @@ public class SyntaticAnalyzer {
 
             }
             else{
-                System.out.println("          ERROR: Tokens 'CP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                throw new Exception("          ERROR: Tokens ')' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
             }
 
+        }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
 
     }
@@ -1036,8 +1066,15 @@ public class SyntaticAnalyzer {
 
         System.out.println("          LISTPARAMSCALL = PARAMITEM LISTPARAMSCALLEXT");
 
-        PARAMITEM();
-        LISTPARAMSCALLEXT();
+        try{
+
+            PARAMITEM();
+            LISTPARAMSCALLEXT();
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
 
     }
@@ -1046,21 +1083,24 @@ public class SyntaticAnalyzer {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SPTR)){
 
-            System.out.println("          LISTPARAMSCALLEXT = 'SPTR' LISTPARAMSCALL");
+            System.out.println("          LISTPARAMSCALLEXT = ',' LISTPARAMSCALL");
 
-            System.out.println(token.toString());
-            /*Next Token*/
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                    LISTPARAMSCALL();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
+            try {
+
+                System.out.println(token.toString());
+                /*Next Token*/
+                if(lexicalAnalyzer.hasMoreTokens()){
+
+                        token = lexicalAnalyzer.nextToken();
+                        LISTPARAMSCALL();
+
                 }
-            }
-            else{
-                System.out.println("          ERROR: EOF inesperado.");
+                else{
+                    throw new Exception("          ERROR: EOF inesperado.");
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -1071,30 +1111,38 @@ public class SyntaticAnalyzer {
 
     public static void PARAMITEM(){
 
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
+        try{
 
-            System.out.println("          PARAMITEM = NAME");
+            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
 
-            NAME();
+                System.out.println("          PARAMITEM = NAME");
 
-        }
-        else{
-            System.out.println("          PARAMITEM = CONSTANT");
+                NAME();
 
-            CONSTANT();
+            }
+            else{
+                System.out.println("          PARAMITEM = EB");
+
+                EB();
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
-    public static void PRINT(){
+    public static void PRINT() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.PRINT)){
 
-            System.out.println("          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'");
+            System.out.println("          PRINT = 'print' '(' MESSAGE PRINTEXT ')'");
+
+            try {
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
 
@@ -1103,7 +1151,7 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
                                 MESSAGE();
                                 PRINTEXT();
@@ -1113,49 +1161,44 @@ public class SyntaticAnalyzer {
                                     System.out.println(token.toString());
                                     /*Next Token*/
                                     if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
+
                                             token = lexicalAnalyzer.nextToken();
 
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
+
                                     }
                                     else{
-                                        System.out.println("          ERROR: EOF inesperado.");
+                                        throw new Exception("          ERROR: EOF inesperado.");
                                     }
 
                                 }
                                 else{
-                                    System.out.println("          ERROR: Tokens 'CP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                    throw new Exception("          ERROR: Tokens ')' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                                 }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
 
-                        System.out.println("          ERROR: Tokens 'OP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens '(' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'PRINT' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'print' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
         }
     }
@@ -1164,22 +1207,25 @@ public class SyntaticAnalyzer {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SPTR)){
 
-            System.out.println("          PRINTEXT = 'SPTR' NAME PRINTEXT");
+            System.out.println("          PRINTEXT = ',' NAME PRINTEXT");
+
+            try {
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     NAME();
                     PRINTEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -1193,6 +1239,8 @@ public class SyntaticAnalyzer {
 
     public static void MESSAGE(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CTESTRING)){
 
             System.out.println("          MESSAGE = 'CTESTRING' MESSAGEEXT");
@@ -1200,16 +1248,13 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     MESSAGEEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }
@@ -1221,27 +1266,35 @@ public class SyntaticAnalyzer {
             MESSAGEEXT();
 
         }
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void MESSAGEEXT(){
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CONCAT)){
 
-            System.out.println("          MESSAGEEXT = 'CONCAT' MESSAGE");
+            System.out.println("          MESSAGEEXT = '++' MESSAGE");
+
+            try {
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     MESSAGE();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -1250,16 +1303,18 @@ public class SyntaticAnalyzer {
         }
     }
 
-    public static void READ(){
+    public static void READ() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.READ)){
 
-            System.out.println("          READ = 'READ' 'OP' READEXT 'CP'");
+            System.out.println("          READ = 'read' '(' READEXT ')'");
+
+            try {
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
 
@@ -1268,7 +1323,7 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
                                 READEXT();
 
@@ -1277,79 +1332,84 @@ public class SyntaticAnalyzer {
                                     System.out.println(token.toString());
                                     /*Next Token*/
                                     if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
+
                                             token = lexicalAnalyzer.nextToken();
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
+
                                     }
                                     else{
-                                        System.out.println("          ERROR: EOF inesperado.");
+                                        throw new Exception("          ERROR: EOF inesperado.");
                                     }
 
                                 }
                                 else{
-                                    System.out.println("          ERROR: Tokens 'CP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                    throw new Exception("          ERROR: Tokens ')' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                                 }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
                     }
                     else{
 
-                        System.out.println("          ERROR: Tokens 'OP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens '(' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
 
-            System.out.println("          ERROR: Tokens 'READ' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'read' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
         }
     }
 
     public static void READEXT(){
 
-        System.out.println("          READEXT = NAME READEXTR");
+        try{
 
-        NAME();
-        READEXTR();
+            System.out.println("          READEXT = NAME READEXTR");
+
+            NAME();
+            READEXTR();
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void READEXTR(){
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.SPTR)){
 
-            System.out.println("          READEXTR = 'SPTR' READEXT");
+            try {
+
+            System.out.println("          READEXTR = ',' READEXT");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     READEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -1362,21 +1422,29 @@ public class SyntaticAnalyzer {
 
         System.out.println("          IFELSE = IF ELIF ELSE");
 
-        IF();
-        ELIF();
-        ELSE();
+        try{
+
+            IF();
+            ELIF();
+            ELSE();
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
-    public static void IF(){
+    public static void IF() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.IF)){
 
-            System.out.println("          IF = 'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'");
+            try {
+
+            System.out.println("          IF = 'if' '(' EB ')' ESCOPE");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
 
@@ -1385,7 +1453,7 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
                                 EB();
 
@@ -1394,101 +1462,48 @@ public class SyntaticAnalyzer {
                                     System.out.println(token.toString());
                                     /*Next Token*/
                                     if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
+
                                             token = lexicalAnalyzer.nextToken();
+                                            ESCOPE();
 
-
-                                            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OK)){
-
-                                                System.out.println(token.toString());
-                                                /*Next Token*/
-                                                if(lexicalAnalyzer.hasMoreTokens()){
-                                                    try {
-                                                        token = lexicalAnalyzer.nextToken();
-                                                        COMMANDS();
-
-                                                        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CK)){
-
-                                                            System.out.println(token.toString());
-                                                            /*Next Token*/
-                                                            if(lexicalAnalyzer.hasMoreTokens()){
-                                                                try {
-                                                                    token = lexicalAnalyzer.nextToken();
-
-                                                                } catch (Exception e) {
-                                                                    System.err.println(e);
-                                                                    System.exit(1);
-                                                                }
-                                                            }
-                                                            else{
-                                                                System.out.println("          ERROR: EOF inesperado.");
-                                                            }
-
-                                                        }
-                                                        else{
-
-                                                            System.out.println("          ERROR: Tokens 'CK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                                                        }
-
-                                                    } catch (Exception e) {
-                                                        System.err.println(e);
-                                                        System.exit(1);
-                                                    }
-                                                }
-                                                else{
-                                                    System.out.println("          ERROR: EOF inesperado.");
-                                                }
-
-                                            }
-                                            else{
-
-                                                System.out.println("          ERROR: Tokens 'OK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                                            }
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
                                     }
                                     else{
-                                        System.out.println("          ERROR: EOF inesperado.");
+                                        throw new Exception("          ERROR: EOF inesperado.");
                                     }
 
                                 }
                                 else{
 
-                                    System.out.println("          ERROR: Tokens 'CP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                    throw new Exception("          ERROR: Tokens ')' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                                 }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
 
-                        System.out.println("          ERROR: Tokens 'OP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens '(' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
 
-            System.out.println("          ERROR: Tokens 'IF' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'if' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
         }
     }
@@ -1497,12 +1512,14 @@ public class SyntaticAnalyzer {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ELIF)){
 
-            System.out.println("          ELIF = 'ELIF' 'OP' EB 'CP' 'OK' COMMANDS 'CK' ELIF");
+            System.out.println("          ELIF = 'elif' '(' EB ')' ESCOPE ELIF");
+
+            try {
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
 
@@ -1511,7 +1528,7 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
                                 EB();
 
@@ -1520,93 +1537,42 @@ public class SyntaticAnalyzer {
                                     System.out.println(token.toString());
                                     /*Next Token*/
                                     if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
+
                                             token = lexicalAnalyzer.nextToken();
-                                            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OK)){
+                                            ESCOPE();
+                                            ELIF();
 
-                                                System.out.println(token.toString());
-                                                /*Next Token*/
-                                                if(lexicalAnalyzer.hasMoreTokens()){
-                                                    try {
-                                                        token = lexicalAnalyzer.nextToken();
-                                                        COMMANDS();
-
-                                                        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CK)){
-
-                                                            System.out.println(token.toString());
-                                                            /*Next Token*/
-                                                            if(lexicalAnalyzer.hasMoreTokens()){
-                                                                try {
-                                                                    token = lexicalAnalyzer.nextToken();
-
-                                                                } catch (Exception e) {
-                                                                    System.err.println(e);
-                                                                    System.exit(1);
-                                                                }
-                                                            }
-                                                            else{
-                                                                System.out.println("          ERROR: EOF inesperado.");
-                                                            }
-
-                                                        }
-                                                        else{
-
-                                                            System.out.println("          ERROR: Tokens 'CK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                                                        }
-
-                                                    } catch (Exception e) {
-                                                        System.err.println(e);
-                                                        System.exit(1);
-                                                    }
-                                                }
-                                                else{
-                                                    System.out.println("          ERROR: EOF inesperado.");
-                                                }
-
-                                            }
-                                            else{
-
-                                                System.out.println("          ERROR: Tokens 'OK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                                            }
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
                                     }
                                     else{
-                                        System.out.println("          ERROR: EOF inesperado.");
+                                        throw new Exception("          ERROR: EOF inesperado.");
                                     }
 
                                 }
                                 else{
 
-                                    System.out.println("          ERROR: Tokens 'CP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                    throw new Exception("          ERROR: Tokens ')' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                                 }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
 
-                        System.out.println("          ERROR: Tokens 'OP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens '(' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -1621,69 +1587,27 @@ public class SyntaticAnalyzer {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ELSE)){
 
-            System.out.println("          ELSE = 'ELSE' 'OK' COMMANDS 'CK'");
+            try {
+
+            System.out.println("          ELSE = 'else' ESCOPE");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
 
-                    if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OK)){
+                    ESCOPE();
 
-                        System.out.println(token.toString());
-                        /*Next Token*/
-                        if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
-                                token = lexicalAnalyzer.nextToken();
-                                COMMANDS();
-
-                                if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CK)){
-
-                                    System.out.println(token.toString());
-                                    /*Next Token*/
-                                    if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
-                                            token = lexicalAnalyzer.nextToken();
-
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
-                                    }
-                                    else{
-                                        System.out.println("          ERROR: EOF inesperado.");
-                                    }
-
-                                }
-                                else{
-
-                                    System.out.println("          ERROR: Tokens 'CK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                                }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
-                        }
-                        else{
-                            System.out.println("          ERROR: EOF inesperado.");
-                        }
-
-                    }
-                    else{
-
-                        System.out.println("          ERROR: Tokens 'OK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                    }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -1694,16 +1618,18 @@ public class SyntaticAnalyzer {
         }
     }
 
-    public static void WHEN(){
+    public static void WHEN() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.WHEN)){
 
-            System.out.println("          WHEN = 'WHEN' 'OP' EB 'CP' 'OK' COMMANDS 'CK'");
+            try {
+
+            System.out.println("          WHEN = 'when' '(' EB ')' ESCOPE");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
 
@@ -1712,7 +1638,7 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
                                 EB();
 
@@ -1721,113 +1647,65 @@ public class SyntaticAnalyzer {
                                     System.out.println(token.toString());
                                     /*Next Token*/
                                     if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
+
                                             token = lexicalAnalyzer.nextToken();
-                                            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OK)){
 
-                                                System.out.println(token.toString());
-                                                /*Next Token*/
-                                                if(lexicalAnalyzer.hasMoreTokens()){
-                                                    try {
-                                                        token = lexicalAnalyzer.nextToken();
-                                                        COMMANDS();
+                                            ESCOPE();
 
-                                                        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CK)){
-
-                                                            System.out.println(token.toString());
-                                                            /*Next Token*/
-                                                            if(lexicalAnalyzer.hasMoreTokens()){
-                                                                try {
-                                                                    token = lexicalAnalyzer.nextToken();
-
-                                                                } catch (Exception e) {
-                                                                    System.err.println(e);
-                                                                    System.exit(1);
-                                                                }
-                                                            }
-                                                            else{
-                                                                System.out.println("          ERROR: EOF inesperado.");
-                                                            }
-
-                                                        }
-                                                        else{
-
-                                                            System.out.println("          ERROR: Tokens 'CK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                                                        }
-
-                                                    } catch (Exception e) {
-                                                        System.err.println(e);
-                                                        System.exit(1);
-                                                    }
-                                                }
-                                                else{
-                                                    System.out.println("          ERROR: EOF inesperado.");
-                                                }
-
-                                            }
-                                            else{
-
-                                                System.out.println("          ERROR: Tokens 'OK' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
-
-                                            }
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
                                     }
                                     else{
-                                        System.out.println("          ERROR: EOF inesperado.");
+                                        throw new Exception("          ERROR: EOF inesperado.");
                                     }
 
                                 }
                                 else{
 
-                                    System.out.println("          ERROR: Tokens 'CP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                    throw new Exception("          ERROR: Tokens ')' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                                 }
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
 
-                        System.out.println("          ERROR: Tokens 'OP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens '(' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
 
-            System.out.println("          ERROR: Tokens 'WHEN' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'when' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
         }
     }
 
-    public static void REPEATER(){
+    public static void REPEATER() throws Exception {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.REPEATER)){
 
-            System.out.println("          REPEATER = 'REPEATER' 'OP' 'ID' ATTRIBUTION 'SCO' PARAMITEM 'SCO' PARAMITEM 'CP' 'OK' COMMANDS 'CK'");
+            System.out.println("          REPEATER = 'repeater' '(' 'ID' ATTRIBUTION ';' PARAMITEM ';' PARAMITEM ')' ESCOPE");
+
+            try {
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
 
                     if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)){
@@ -1835,7 +1713,7 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
 
                                 if (token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)) {
@@ -1843,7 +1721,7 @@ public class SyntaticAnalyzer {
                                     System.out.println(token.toString());
                                     /*Next Token*/
                                     if(lexicalAnalyzer.hasMoreTokens()){
-                                        try {
+
                                             token = lexicalAnalyzer.nextToken();
 
                                             ATTRIBUTION();
@@ -1853,7 +1731,7 @@ public class SyntaticAnalyzer {
                                                 System.out.println(token.toString());
                                                 /*Next Token*/
                                                 if (lexicalAnalyzer.hasMoreTokens()) {
-                                                    try {
+
                                                         token = lexicalAnalyzer.nextToken();
 
                                                         PARAMITEM();
@@ -1864,7 +1742,7 @@ public class SyntaticAnalyzer {
                                                             System.out.println(token.toString());
                                                             /*Next Token*/
                                                             if (lexicalAnalyzer.hasMoreTokens()) {
-                                                                try {
+
                                                                     token = lexicalAnalyzer.nextToken();
 
                                                                     PARAMITEM();
@@ -1874,201 +1752,170 @@ public class SyntaticAnalyzer {
                                                                         System.out.println(token.toString());
                                                                         /*Next Token*/
                                                                         if (lexicalAnalyzer.hasMoreTokens()) {
-                                                                            try {
+
                                                                                 token = lexicalAnalyzer.nextToken();
 
-                                                                                if (token.getCategory().equals(LexicalAnalyzer.TokenCategory.OK)) {
+                                                                                ESCOPE();
 
-                                                                                    System.out.println(token.toString());
-                                                                                    /*Next Token*/
-                                                                                    if (lexicalAnalyzer.hasMoreTokens()) {
-                                                                                        try {
-                                                                                            token = lexicalAnalyzer.nextToken();
 
-                                                                                            COMMANDS();
-
-                                                                                            if (token.getCategory().equals(LexicalAnalyzer.TokenCategory.CK)) {
-
-                                                                                                System.out.println(token.toString());
-                                                                                                /*Next Token*/
-                                                                                                if (lexicalAnalyzer.hasMoreTokens()) {
-                                                                                                    try {
-                                                                                                        token = lexicalAnalyzer.nextToken();
-
-                                                                                                    } catch (Exception e) {
-                                                                                                        System.err.println(e);
-                                                                                                        System.exit(1);
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    System.out.println("          ERROR: EOF inesperado.");
-                                                                                                }
-
-                                                                                            } else {
-                                                                                                System.out.println("          ERROR: Tokens 'CK' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
-                                                                                            }
-
-                                                                                        } catch (Exception e) {
-                                                                                            System.err.println(e);
-                                                                                            System.exit(1);
-                                                                                        }
-                                                                                    } else {
-                                                                                        System.out.println("          ERROR: EOF inesperado.");
-                                                                                    }
-
-                                                                                } else {
-                                                                                    System.out.println("          ERROR: Tokens 'OK' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
-                                                                                }
-
-                                                                            } catch (Exception e) {
-                                                                                System.err.println(e);
-                                                                                System.exit(1);
-                                                                            }
                                                                         } else {
-                                                                            System.out.println("          ERROR: EOF inesperado.");
+                                                                            throw new Exception("          ERROR: EOF inesperado.");
                                                                         }
 
                                                                     } else {
-                                                                        System.out.println("          ERROR: Tokens 'CP' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
+                                                                        throw new Exception("          ERROR: Tokens ')' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
                                                                     }
 
-                                                                } catch (Exception e) {
-                                                                    System.err.println(e);
-                                                                    System.exit(1);
-                                                                }
+
                                                             } else {
-                                                                System.out.println("          ERROR: EOF inesperado.");
+                                                                throw new Exception("          ERROR: EOF inesperado.");
                                                             }
 
                                                         } else {
-                                                            System.out.println("          ERROR: Tokens 'SCO' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
+                                                            throw new Exception("          ERROR: Tokens ';' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
                                                         }
 
-                                                    } catch (Exception e) {
-                                                        System.err.println(e);
-                                                        System.exit(1);
-                                                    }
+
                                                 } else {
-                                                    System.out.println("          ERROR: EOF inesperado.");
+                                                    throw new Exception("          ERROR: EOF inesperado.");
                                                 }
 
                                             } else {
-                                                System.out.println("          ERROR: Tokens 'SCO' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
+                                                throw new Exception("          ERROR: Tokens ';' esperados. L:" + token.getLine() + " C:" + token.getColumn() + " Tk:" + token.getValue());
                                             }
 
-                                        } catch (Exception e) {
-                                            System.err.println(e);
-                                            System.exit(1);
-                                        }
+
                                     }
                                     else{
-                                        System.out.println("          ERROR: EOF inesperado.");
+                                        throw new Exception("          ERROR: EOF inesperado.");
                                     }
 
 
                                 }
                                 else{
-                                    System.out.println("          ERROR: Tokens 'ID' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                                    throw new Exception("          ERROR: Tokens 'ID' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                                 }
 
-                            } catch(Exception e){
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
 
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
-                        System.out.println("          ERROR: Tokens 'OP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens '(' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
                     }
 
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'REPEATER' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'repeater' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
     }
 
-    public static void RETURN(){
+    public static void RETURN() throws Exception {
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.RETURN)){
 
-            System.out.println("          RETURN = 'RETURN' RETURNEXT");
+            try {
+
+            System.out.println("          RETURN = 'return' RETURNEXT");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     RETURNEXT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'RETURN' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'return' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
     }
 
     public static void RETURNEXT(){
 
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
+        try {
 
-            System.out.println("          RETURNEXT = NAME");
+            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
 
-            NAME();
+                System.out.println("          RETURNEXT = NAME");
 
-        }
-        else{
-            System.out.println("          RETURNEXT = CONSTANT");
+                NAME();
 
-            CONSTANT();
+            }
+            else{
+                System.out.println("          RETURNEXT = EB");
+
+                EB();
+            }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
     public static void EB(){
 
-        System.out.println("          EB= TB EBR");
+        try {
 
-        TB();
-        EBR();
+            System.out.println("          EB= TB EBR");
+
+            TB();
+            EBR();
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void EBR(){
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OR)){
 
-            System.out.println("          EBR = 'OR' TB EBR");
+            try {
+
+            System.out.println("          EBR = 'or' TB EBR");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     TB();
                     EBR();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -2079,32 +1926,43 @@ public class SyntaticAnalyzer {
 
     public static void TB(){
 
-        System.out.println("          TB = FB TBR");
+        try{
 
-        FB();
-        TBR();
+            System.out.println("          TB = FB TBR");
+
+            FB();
+            TBR();
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void TBR(){
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.AND)){
 
-            System.out.println("          TBR = 'AND' FB TBR");
+            try {
+
+            System.out.println("          TBR = 'and' FB TBR");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     FB();
                     TBR();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
         }
         else{
@@ -2113,106 +1971,128 @@ public class SyntaticAnalyzer {
     }
 
     public static void FB(){
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.NOT)){
 
-            System.out.println("          FB = 'NOT' FB");
+        try{
+            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.NOT)){
 
-            System.out.println(token.toString());
-            /*Next Token*/
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                    FB();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
+                System.out.println("          FB = 'not' FB");
+
+                System.out.println(token.toString());
+                /*Next Token*/
+                if(lexicalAnalyzer.hasMoreTokens()){
+                    try {
+                        token = lexicalAnalyzer.nextToken();
+                        FB();
+                    } catch (Exception e) {
+                        System.err.println(e);
+                        System.exit(1);
+                    }
                 }
+                else{
+                    throw new Exception("          ERROR: EOF inesperado.");
+                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+
+                System.out.println("          FB = EA EREL");
+                EA();
+                EREL();
             }
 
-        }
-        else{
-
-            System.out.println("          FB = EA EREL");
-            EA();
-            EREL();
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
-    public static void EREL(){
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ORC)){
+    public static void EREL() throws Exception {
 
-            System.out.println("          EREL = 'ORC' EA");
+        try {
+            if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ORC)){
 
-            System.out.println(token.toString());
-            /*Next Token*/
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                    EA();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
+                System.out.println("          EREL = 'ORC' EA");
+
+                System.out.println(token.toString());
+                /*Next Token*/
+                if(lexicalAnalyzer.hasMoreTokens()){
+
+                        token = lexicalAnalyzer.nextToken();
+                        EA();
+
                 }
-            }
-            else{
-                System.out.println("          ERROR: EOF inesperado.");
-            }
-
-        }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ORE)){
-
-            System.out.println("          EREL = 'ORE' EA");
-
-            System.out.println(token.toString());
-            /*Next Token*/
-            if(lexicalAnalyzer.hasMoreTokens()){
-                try {
-                    token = lexicalAnalyzer.nextToken();
-                    EA();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
+                else{
+                    throw new Exception("          ERROR: EOF inesperado.");
                 }
-            }
-            else{
-                System.out.println("          ERROR: EOF inesperado.");
+
+            }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ORE)){
+
+
+
+                System.out.println("          EREL = 'ORE' EA");
+
+                System.out.println(token.toString());
+                /*Next Token*/
+                if(lexicalAnalyzer.hasMoreTokens()){
+
+                        token = lexicalAnalyzer.nextToken();
+                        EA();
+
+                }
+                else{
+                    throw new Exception("          ERROR: EOF inesperado.");
+                }
+
+
+            }else{
+                System.out.println("          EREL = ε");
             }
 
-        }else{
-            System.out.println("          ERROR: Tokens 'ORC', 'ORE' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
     }
 
     public static void EA(){
 
-        System.out.println("          EA = TA EAR");
+        try{
 
-        TA();
-        EAR();
+            System.out.println("          EA = TA EAR");
+
+            TA();
+            EAR();
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void EAR(){
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OPA)){
+
+            try {
 
             System.out.println("          EAR = 'OPA' TA EAR");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     TA();
                     EAR();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
 
         }
         else{
@@ -2222,31 +2102,42 @@ public class SyntaticAnalyzer {
 
     public static void TA(){
 
-        System.out.println("          TA = PA TAR");
+        try{
 
-        PA();
-        TAR();
+            System.out.println("          TA = PA TAR");
+
+            PA();
+            TAR();
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void TAR(){
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OPM)){
+
+            try {
 
             System.out.println("          TAR = 'OPM' PA TAR");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     PA();
                     TAR();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -2264,23 +2155,27 @@ public class SyntaticAnalyzer {
     }
 
     public static void PAFAT(){
-        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OPM)){
+        if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OPE)){
+
+            try {
 
             System.out.println("          PAFAT = 'OPE' PA");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     PA();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
@@ -2291,6 +2186,8 @@ public class SyntaticAnalyzer {
 
     public static void FA(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OPU)){
 
             System.out.println("          FA = 'OPU' FA");
@@ -2298,26 +2195,23 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     FA();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)){
 
-            System.out.println("          FA = 'OP' EB 'CP'");
+            System.out.println("          FA = '(' EB ')'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     EB();
 
@@ -2326,31 +2220,25 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
 
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
 
-                        System.out.println("          ERROR: Tokens 'CP' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens ')' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
@@ -2364,44 +2252,55 @@ public class SyntaticAnalyzer {
 
             CONSTANT();
         }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
-    public static void ID(){
+    public static void ID() throws Exception {
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.ID)){
+
+            try {
 
             System.out.println("          ID = 'ID' IDFAT");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     IDFAT();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
+            }
+
+            } catch (Exception e) {
+                System.err.println(e);
+                System.exit(1);
             }
 
         }
         else{
-            System.out.println("          ERROR: Tokens 'ID' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'ID' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
         }
     }
 
     public static void IDFAT(){
 
+        try {
+
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OB)){
 
-            System.out.println("          IDFAT = 'OB' EA 'CB'");
+            System.out.println("          IDFAT = '[' EA ']'");
 
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
                     EA();
 
@@ -2410,31 +2309,25 @@ public class SyntaticAnalyzer {
                         System.out.println(token.toString());
                         /*Next Token*/
                         if(lexicalAnalyzer.hasMoreTokens()){
-                            try {
+
                                 token = lexicalAnalyzer.nextToken();
 
-                            } catch (Exception e) {
-                                System.err.println(e);
-                                System.exit(1);
-                            }
+
                         }
                         else{
-                            System.out.println("          ERROR: EOF inesperado.");
+                            throw new Exception("          ERROR: EOF inesperado.");
                         }
 
                     }
                     else{
 
-                        System.out.println("          ERROR: Tokens 'CB' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+                        throw new Exception("          ERROR: Tokens ']' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
 
                     }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
 
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.OP)){
@@ -2447,9 +2340,16 @@ public class SyntaticAnalyzer {
 
             System.out.println("          IDFAT = ε");
         }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
+        }
     }
 
     public static void CONSTANT(){
+
+        try {
 
         if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CTEINT)){
             System.out.println("          CONSTANT = 'CTEINT'");
@@ -2457,15 +2357,12 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CTEFLOAT)){
             System.out.println("          CONSTANT = 'CTEFLOAT'");
@@ -2473,15 +2370,12 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CTEBOOL)){
             System.out.println("          CONSTANT = 'CTEBOOL'");
@@ -2489,15 +2383,12 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CTECHAR)){
             System.out.println("          CONSTANT = 'CTECHAR'");
@@ -2505,15 +2396,12 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else if(token.getCategory().equals(LexicalAnalyzer.TokenCategory.CTESTRING)){
             System.out.println("          CONSTANT = 'CTESTRING'");
@@ -2521,18 +2409,20 @@ public class SyntaticAnalyzer {
             System.out.println(token.toString());
             /*Next Token*/
             if(lexicalAnalyzer.hasMoreTokens()){
-                try {
+
                     token = lexicalAnalyzer.nextToken();
-                } catch (Exception e) {
-                    System.err.println(e);
-                    System.exit(1);
-                }
+
             }
             else{
-                System.out.println("          ERROR: EOF inesperado.");
+                throw new Exception("          ERROR: EOF inesperado.");
             }
         }else{
-            System.out.println("          ERROR: Tokens 'CTEINT', 'CTEFLOAT', 'CTEBOOL', 'CTECHAR', 'CTESTRING' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+            throw new Exception("          ERROR: Tokens 'CTEINT', 'CTEFLOAT', 'CTEBOOL', 'CTECHAR', 'CTESTRING' esperados. L:"+ token.getLine() +" C:" + token.getColumn() + " Tk:" + token.getValue());
+        }
+
+        } catch (Exception e) {
+            System.err.println(e);
+            System.exit(1);
         }
 
     }

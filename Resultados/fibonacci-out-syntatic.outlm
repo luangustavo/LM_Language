@@ -1,68 +1,68 @@
    1  fibonacci(int limit) void {
           MODULE = FUNCTIONS MAIN
-          FUNCTIONS = 'ID' PARAMS RETURNTYPE ESCOPE FUNCTIONS
+          FUNCTIONS = 'ID' PARAMS RETURNTYPE ESCOPE ';' FUNCTIONS
               [0001, 0001] (0002,                   ID) {fibonacci}
-          PARAMS = 'OP' PARAMSEXT
+          PARAMS = '(' PARAMSEXT
               [0001, 0010] (0011,                   OP) {(}
-          PARAMSEXT = LISTPARAMS 'CP'
+          PARAMSEXT = LISTPARAMS ')'
           LISTPARAMS = TYPE NAME LISTPARAMSEXT
-          TYPE = 'INT'
+          TYPE = 'int'
               [0001, 0011] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0001, 0015] (0002,                   ID) {limit}
           NAMEEXT = ε
           LISTPARAMSEXT = ε
               [0001, 0020] (0012,                   CP) {)}
-          RETURNTYPE = 'VOID'
+          RETURNTYPE = 'void'
               [0001, 0022] (0003,                 VOID) {void}
-          ESCOPE = 'OK' COMMANDS 'CK' 'SCO' 
+          ESCOPE = '{' COMMANDS '}' 
               [0001, 0027] (0009,                   OK) {{}
    2      int count; 
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0002, 0005] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0002, 0009] (0002,                   ID) {count}
           NAMEEXT = ε
               [0002, 0014] (0015,                  SCO) {;}
    3      int fib1; 
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0003, 0005] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0003, 0009] (0002,                   ID) {fib1}
           NAMEEXT = ε
               [0003, 0013] (0015,                  SCO) {;}
    4      int fib2; 
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0004, 0005] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0004, 0009] (0002,                   ID) {fib2}
           NAMEEXT = ε
               [0004, 0013] (0015,                  SCO) {;}
    5      int result;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0005, 0005] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0005, 0009] (0002,                   ID) {result}
           NAMEEXT = ε
               [0005, 0015] (0015,                  SCO) {;}
    6      fib1 = 1;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0006, 0005] (0002,                   ID) {fib1}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0006, 0010] (0039,                  ATR) {=}
           VALUE = EA
@@ -77,11 +77,11 @@
           EAR = ε
               [0006, 0013] (0015,                  SCO) {;}
    7      fib2 = 1;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0007, 0005] (0002,                   ID) {fib2}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0007, 0010] (0039,                  ATR) {=}
           VALUE = EA
@@ -96,10 +96,10 @@
           EAR = ε
               [0007, 0013] (0015,                  SCO) {;}
    8      if(limit == 0) { 
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = IFELSE
           IFELSE = IF ELIF ELSE
-          IF = 'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          IF = 'if' '(' EB ')' ESCOPE
               [0008, 0005] (0022,                   IF) {if}
               [0008, 0007] (0011,                   OP) {(}
           EB= TB EBR
@@ -129,11 +129,12 @@
           TBR = ε
           EBR = ε
               [0008, 0018] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0008, 0020] (0009,                   OK) {{}
    9          print("0");
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0009, 0009] (0027,                PRINT) {print}
               [0009, 0014] (0011,                   OP) {(}
           MESSAGE = 'CTESTRING' MESSAGEEXT
@@ -146,13 +147,14 @@
           COMMANDS = ε
               [0010, 0005] (0010,                   CK) {}}
           ELIF = ε
-          ELSE = 'ELSE' 'OK' COMMANDS 'CK'
+          ELSE = 'else' ESCOPE
               [0010, 0006] (0023,                 ELSE) {else}
+          ESCOPE = '{' COMMANDS '}' 
               [0010, 0010] (0009,                   OK) {{}
   11          when(result <= limit) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = WHEN
-          WHEN = 'WHEN' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          WHEN = 'when' '(' EB ')' ESCOPE
               [0011, 0009] (0026,                 WHEN) {when}
               [0011, 0013] (0011,                   OP) {(}
           EB= TB EBR
@@ -183,12 +185,13 @@
           TBR = ε
           EBR = ε
               [0011, 0029] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0011, 0031] (0009,                   OK) {{}
   12               if(count == 0){
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = IFELSE
           IFELSE = IF ELIF ELSE
-          IF = 'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          IF = 'if' '(' EB ')' ESCOPE
               [0012, 0014] (0022,                   IF) {if}
               [0012, 0016] (0011,                   OP) {(}
           EB= TB EBR
@@ -218,11 +221,12 @@
           TBR = ε
           EBR = ε
               [0012, 0027] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0012, 0028] (0009,                   OK) {{}
   13                    print("0");
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0013, 0019] (0027,                PRINT) {print}
               [0013, 0024] (0011,                   OP) {(}
           MESSAGE = 'CTESTRING' MESSAGEEXT
@@ -234,7 +238,7 @@
   14               }elif(count < 2) { 
           COMMANDS = ε
               [0014, 0014] (0010,                   CK) {}}
-          ELIF = 'ELIF' 'OP' EB 'CP' 'OK' COMMANDS 'CK' ELIF
+          ELIF = 'elif' '(' EB ')' ESCOPE ELIF
               [0014, 0015] (0024,                 ELIF) {elif}
               [0014, 0019] (0011,                   OP) {(}
           EB= TB EBR
@@ -264,11 +268,12 @@
           TBR = ε
           EBR = ε
               [0014, 0029] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0014, 0031] (0009,                   OK) {{}
   15                    print(",1");
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0015, 0019] (0027,                PRINT) {print}
               [0015, 0024] (0011,                   OP) {(}
           MESSAGE = 'CTESTRING' MESSAGEEXT
@@ -278,11 +283,11 @@
               [0015, 0029] (0012,                   CP) {)}
               [0015, 0030] (0015,                  SCO) {;}
   16                    result = 1;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0016, 0019] (0002,                   ID) {result}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0016, 0026] (0039,                  ATR) {=}
           VALUE = EA
@@ -299,15 +304,17 @@
   17               }else { 
           COMMANDS = ε
               [0017, 0014] (0010,                   CK) {}}
-          ELSE = 'ELSE' 'OK' COMMANDS 'CK'
+          ELIF = ε
+          ELSE = 'else' ESCOPE
               [0017, 0015] (0023,                 ELSE) {else}
+          ESCOPE = '{' COMMANDS '}' 
               [0017, 0020] (0009,                   OK) {{}
   18                    result = fib1 + fib2;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0018, 0019] (0002,                   ID) {result}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0018, 0026] (0039,                  ATR) {=}
           VALUE = EA
@@ -333,11 +340,11 @@
           EAR = ε
               [0018, 0039] (0015,                  SCO) {;}
   19                    fib1 = fib2;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0019, 0019] (0002,                   ID) {fib1}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0019, 0024] (0039,                  ATR) {=}
           VALUE = EA
@@ -353,11 +360,11 @@
           EAR = ε
               [0019, 0030] (0015,                  SCO) {;}
   20                    fib2 = result;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0020, 0019] (0002,                   ID) {fib2}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0020, 0024] (0039,                  ATR) {=}
           VALUE = EA
@@ -373,10 +380,10 @@
           EAR = ε
               [0020, 0032] (0015,                  SCO) {;}
   21                    if(result<=limit){
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = IFELSE
           IFELSE = IF ELIF ELSE
-          IF = 'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          IF = 'if' '(' EB ')' ESCOPE
               [0021, 0019] (0022,                   IF) {if}
               [0021, 0021] (0011,                   OP) {(}
           EB= TB EBR
@@ -407,17 +414,18 @@
           TBR = ε
           EBR = ε
               [0021, 0035] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0021, 0036] (0009,                   OK) {{}
   22                        print(",%d", result);
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0022, 0023] (0027,                PRINT) {print}
               [0022, 0028] (0011,                   OP) {(}
           MESSAGE = 'CTESTRING' MESSAGEEXT
               [0022, 0029] (0021,            CTESTRING) {",%d"}
           MESSAGEEXT = ε
-          PRINTEXT = 'SPTR' NAME PRINTEXT
+          PRINTEXT = ',' NAME PRINTEXT
               [0022, 0034] (0016,                 SPTR) {,}
           NAME = 'ID' NAMEEXT
               [0022, 0036] (0002,                   ID) {result}
@@ -436,11 +444,11 @@
               [0024, 0014] (0010,                   CK) {}}
               [0024, 0015] (0015,                  SCO) {;}
   25               count = count + 1;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0025, 0014] (0002,                   ID) {count}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0025, 0020] (0039,                  ATR) {=}
           VALUE = EA
@@ -478,27 +486,27 @@
               [0028, 0002] (0015,                  SCO) {;}
   29  main() void {
           FUNCTIONS = ε
-          MAIN = 'MAIN' 'OP' 'CP' 'VOID' ESCOPE
+          MAIN = 'main' '(' ')' 'void' ESCOPE ';'
               [0029, 0001] (0001,                 MAIN) {main}
               [0029, 0005] (0011,                   OP) {(}
               [0029, 0006] (0012,                   CP) {)}
               [0029, 0008] (0003,                 VOID) {void}
-          ESCOPE = 'OK' COMMANDS 'CK' 'SCO' 
+          ESCOPE = '{' COMMANDS '}' 
               [0029, 0013] (0009,                   OK) {{}
-  30      int limit; 
-          COMMANDS = CMD 'SCO' COMMANDS
+  30      int limit;
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0030, 0005] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0030, 0009] (0002,                   ID) {limit}
           NAMEEXT = ε
               [0030, 0014] (0015,                  SCO) {;}
   31      read(limit);
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = READ
-          READ = 'READ' 'OP' READEXT 'CP'
+          READ = 'read' '(' READEXT ')'
               [0031, 0005] (0028,                 READ) {read}
               [0031, 0009] (0011,                   OP) {(}
           READEXT = NAME READEXTR
@@ -509,13 +517,13 @@
               [0031, 0015] (0012,                   CP) {)}
               [0031, 0016] (0015,                  SCO) {;}
   32      fibonacci(limit);
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0032, 0005] (0002,                   ID) {fibonacci}
           CMDEXT = FUNCTIONCALL
-          FUNCTIONCALL = 'OP' FUNCTIONCALLEXT
+          FUNCTIONCALL = '(' FUNCTIONCALLEXT
               [0032, 0014] (0011,                   OP) {(}
-          FUNCTIONCALLEXT = LISTPARAMSCALL 'CP'
+          FUNCTIONCALLEXT = LISTPARAMSCALL ')'
           LISTPARAMSCALL = PARAMITEM LISTPARAMSCALLEXT
           PARAMITEM = NAME
           NAME = 'ID' NAMEEXT

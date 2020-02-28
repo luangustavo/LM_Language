@@ -1,17 +1,17 @@
    1  main() void {
           MODULE = FUNCTIONS MAIN
           FUNCTIONS = ε
-          MAIN = 'MAIN' 'OP' 'CP' 'VOID' ESCOPE
+          MAIN = 'main' '(' ')' 'void' ESCOPE ';'
               [0001, 0001] (0001,                 MAIN) {main}
               [0001, 0005] (0011,                   OP) {(}
               [0001, 0006] (0012,                   CP) {)}
               [0001, 0008] (0003,                 VOID) {void}
-          ESCOPE = 'OK' COMMANDS 'CK' 'SCO' 
+          ESCOPE = '{' COMMANDS '}' 
               [0001, 0013] (0009,                   OK) {{}
    2      print("Alo mundo");
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0002, 0005] (0027,                PRINT) {print}
               [0002, 0010] (0011,                   OP) {(}
           MESSAGE = 'CTESTRING' MESSAGEEXT

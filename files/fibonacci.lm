@@ -27,7 +27,7 @@ fibonacci(int limit) void {
     }; 
 };
 main() void {
-    int limit; 
+    int limit;
     read(limit);
     fibonacci(limit);
 };

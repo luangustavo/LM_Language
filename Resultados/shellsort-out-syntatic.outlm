@@ -1,16 +1,16 @@
    1  shellSort(int values[10], int size) int[] {
           MODULE = FUNCTIONS MAIN
-          FUNCTIONS = 'ID' PARAMS RETURNTYPE ESCOPE FUNCTIONS
+          FUNCTIONS = 'ID' PARAMS RETURNTYPE ESCOPE ';' FUNCTIONS
               [0001, 0001] (0002,                   ID) {shellSort}
-          PARAMS = 'OP' PARAMSEXT
+          PARAMS = '(' PARAMSEXT
               [0001, 0010] (0011,                   OP) {(}
-          PARAMSEXT = LISTPARAMS 'CP'
+          PARAMSEXT = LISTPARAMS ')'
           LISTPARAMS = TYPE NAME LISTPARAMSEXT
-          TYPE = 'INT'
+          TYPE = 'int'
               [0001, 0011] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0001, 0015] (0002,                   ID) {values}
-          NAMEEXT = 'OB' EA 'CB'
+          NAMEEXT = '[' EA ']'
               [0001, 0021] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -22,10 +22,10 @@
           TAR = ε
           EAR = ε
               [0001, 0024] (0014,                   CB) {]}
-          LISTPARAMSEXT = 'SPTR' LISTPARAMS
+          LISTPARAMSEXT = ';' LISTPARAMS
               [0001, 0025] (0016,                 SPTR) {,}
           LISTPARAMS = TYPE NAME LISTPARAMSEXT
-          TYPE = 'INT'
+          TYPE = 'int'
               [0001, 0027] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0001, 0031] (0002,                   ID) {size}
@@ -33,29 +33,29 @@
           LISTPARAMSEXT = ε
               [0001, 0035] (0012,                   CP) {)}
           RETURNTYPE = TYPE RETURNTYPEEXT
-          TYPE = 'INT'
+          TYPE = 'int'
               [0001, 0037] (0004,                  INT) {int}
-          RETURNTYPEEXT = 'OB' 'CB'
+          RETURNTYPEEXT = '[' ']'
               [0001, 0040] (0013,                   OB) {[}
               [0001, 0041] (0014,                   CB) {]}
-          ESCOPE = 'OK' COMMANDS 'CK' 'SCO' 
+          ESCOPE = '{' COMMANDS '}' 
               [0001, 0043] (0009,                   OK) {{}
    2        int h;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0002, 0007] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0002, 0011] (0002,                   ID) {h}
           NAMEEXT = ε
               [0002, 0012] (0015,                  SCO) {;}
    3        h = 1;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0003, 0007] (0002,                   ID) {h}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0003, 0009] (0039,                  ATR) {=}
           VALUE = EA
@@ -70,10 +70,10 @@
           EAR = ε
               [0003, 0012] (0015,                  SCO) {;}
    4        if(h < size) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = IFELSE
           IFELSE = IF ELIF ELSE
-          IF = 'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          IF = 'if' '(' EB ')' ESCOPE
               [0004, 0007] (0022,                   IF) {if}
               [0004, 0009] (0011,                   OP) {(}
           EB= TB EBR
@@ -104,13 +104,14 @@
           TBR = ε
           EBR = ε
               [0004, 0018] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0004, 0020] (0009,                   OK) {{}
    5             h = h * 3 + 1;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0005, 0012] (0002,                   ID) {h}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0005, 0014] (0039,                  ATR) {=}
           VALUE = EA
@@ -121,7 +122,8 @@
           ID = 'ID' IDFAT
               [0005, 0016] (0002,                   ID) {h}
           IDFAT = ε
-          PAFAT = 'OPE' PA
+          PAFAT = ε
+          TAR = 'OPM' PA TAR
               [0005, 0018] (0034,                  OPM) {*}
           PA = FA PAFAT
           FA = CONSTANT
@@ -147,11 +149,11 @@
           ELSE = ε
               [0006, 0008] (0015,                  SCO) {;}
    7        h = h / 3;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0007, 0007] (0002,                   ID) {h}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0007, 0009] (0039,                  ATR) {=}
           VALUE = EA
@@ -162,7 +164,8 @@
           ID = 'ID' IDFAT
               [0007, 0011] (0002,                   ID) {h}
           IDFAT = ε
-          PAFAT = 'OPE' PA
+          PAFAT = ε
+          TAR = 'OPM' PA TAR
               [0007, 0013] (0034,                  OPM) {/}
           PA = FA PAFAT
           FA = CONSTANT
@@ -173,30 +176,30 @@
           EAR = ε
               [0007, 0016] (0015,                  SCO) {;}
    8        int c;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0008, 0007] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0008, 0011] (0002,                   ID) {c}
           NAMEEXT = ε
               [0008, 0012] (0015,                  SCO) {;}
    9        int j;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0009, 0007] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0009, 0011] (0002,                   ID) {j}
           NAMEEXT = ε
               [0009, 0012] (0015,                  SCO) {;}
   10        if(h > 0) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = IFELSE
           IFELSE = IF ELIF ELSE
-          IF = 'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          IF = 'if' '(' EB ')' ESCOPE
               [0010, 0007] (0022,                   IF) {if}
               [0010, 0009] (0011,                   OP) {(}
           EB= TB EBR
@@ -226,25 +229,26 @@
           TBR = ε
           EBR = ε
               [0010, 0015] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0010, 0017] (0009,                   OK) {{}
   11             int i;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0011, 0012] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0011, 0016] (0002,                   ID) {i}
           NAMEEXT = ε
               [0011, 0017] (0015,                  SCO) {;}
   12             repeater(i = h; size; 1) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = REPEATER
-          REPEATER = 'REPEATER' 'OP' 'ID' ATTRIBUTION 'SCO' PARAMITEM 'SCO' PARAMITEM 'CP' 'OK' COMMANDS 'CK'
+          REPEATER = 'repeater' '(' 'ID' ATTRIBUTION ';' PARAMITEM ';' PARAMITEM ')' ESCOPE
               [0012, 0012] (0025,             REPEATER) {repeater}
               [0012, 0020] (0011,                   OP) {(}
               [0012, 0021] (0002,                   ID) {i}
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0012, 0023] (0039,                  ATR) {=}
           VALUE = EA
@@ -264,17 +268,31 @@
               [0012, 0028] (0002,                   ID) {size}
           NAMEEXT = ε
               [0012, 0032] (0015,                  SCO) {;}
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0012, 0034] (0017,               CTEINT) {1}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
               [0012, 0035] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0012, 0037] (0009,                   OK) {{}
   13                  c = values[i];
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0013, 0017] (0002,                   ID) {c}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0013, 0019] (0039,                  ATR) {=}
           VALUE = EA
@@ -284,7 +302,7 @@
           FA = ID
           ID = 'ID' IDFAT
               [0013, 0021] (0002,                   ID) {values}
-          IDFAT = 'OB' EA 'CB'
+          IDFAT = '[' EA ']'
               [0013, 0027] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -302,11 +320,11 @@
           EAR = ε
               [0013, 0030] (0015,                  SCO) {;}
   14                  j = i;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0014, 0017] (0002,                   ID) {j}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0014, 0019] (0039,                  ATR) {=}
           VALUE = EA
@@ -322,10 +340,10 @@
           EAR = ε
               [0014, 0022] (0015,                  SCO) {;}
   15                  if(j >= h and values[j - h] > c) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = IFELSE
           IFELSE = IF ELIF ELSE
-          IF = 'IF' 'OP' EB 'CP' 'OK' COMMANDS 'CK'
+          IF = 'if' '(' EB ')' ESCOPE
               [0015, 0017] (0022,                   IF) {if}
               [0015, 0019] (0011,                   OP) {(}
           EB= TB EBR
@@ -353,7 +371,7 @@
           PAFAT = ε
           TAR = ε
           EAR = ε
-          TBR = 'AND' FB TBR
+          TBR = 'and' FB TBR
               [0015, 0027] (0030,                  AND) {and}
           FB = EA EREL
           EA = TA EAR
@@ -362,7 +380,7 @@
           FA = ID
           ID = 'ID' IDFAT
               [0015, 0031] (0002,                   ID) {values}
-          IDFAT = 'OB' EA 'CB'
+          IDFAT = '[' EA ']'
               [0015, 0037] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -403,14 +421,15 @@
           TBR = ε
           EBR = ε
               [0015, 0048] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0015, 0050] (0009,                   OK) {{}
   16                        values[j] = values[j - h];
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0016, 0023] (0002,                   ID) {values}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
-          NAMEEXT = 'OB' EA 'CB'
+          ATTRIBUTION = NAMEEXT '=' VALUE
+          NAMEEXT = '[' EA ']'
               [0016, 0029] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -431,7 +450,7 @@
           FA = ID
           ID = 'ID' IDFAT
               [0016, 0035] (0002,                   ID) {values}
-          IDFAT = 'OB' EA 'CB'
+          IDFAT = '[' EA ']'
               [0016, 0041] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -459,11 +478,11 @@
           EAR = ε
               [0016, 0048] (0015,                  SCO) {;}
   17                        j = j - h;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0017, 0023] (0002,                   ID) {j}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0017, 0025] (0039,                  ATR) {=}
           VALUE = EA
@@ -495,12 +514,12 @@
           ELSE = ε
               [0018, 0018] (0015,                  SCO) {;}
   19                  values[j] = c;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0019, 0017] (0002,                   ID) {values}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
-          NAMEEXT = 'OB' EA 'CB'
+          ATTRIBUTION = NAMEEXT '=' VALUE
+          NAMEEXT = '[' EA ']'
               [0019, 0023] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -531,11 +550,11 @@
               [0020, 0012] (0010,                   CK) {}}
               [0020, 0013] (0015,                  SCO) {;}
   21             h = h / 2;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0021, 0012] (0002,                   ID) {h}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0021, 0014] (0039,                  ATR) {=}
           VALUE = EA
@@ -546,7 +565,8 @@
           ID = 'ID' IDFAT
               [0021, 0016] (0002,                   ID) {h}
           IDFAT = ε
-          PAFAT = 'OPE' PA
+          PAFAT = ε
+          TAR = 'OPM' PA TAR
               [0021, 0018] (0034,                  OPM) {/}
           PA = FA PAFAT
           FA = CONSTANT
@@ -563,9 +583,9 @@
           ELSE = ε
               [0022, 0008] (0015,                  SCO) {;}
   23        return values;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = RETURN
-          RETURN = 'RETURN' RETURNEXT
+          RETURN = 'return' RETURNEXT
               [0023, 0007] (0029,               RETURN) {return}
           RETURNEXT = NAME
           NAME = 'ID' NAMEEXT
@@ -578,32 +598,32 @@
               [0024, 0002] (0015,                  SCO) {;}
   25  main() void {
           FUNCTIONS = ε
-          MAIN = 'MAIN' 'OP' 'CP' 'VOID' ESCOPE
+          MAIN = 'main' '(' ')' 'void' ESCOPE ';'
               [0025, 0001] (0001,                 MAIN) {main}
               [0025, 0005] (0011,                   OP) {(}
               [0025, 0006] (0012,                   CP) {)}
               [0025, 0008] (0003,                 VOID) {void}
-          ESCOPE = 'OK' COMMANDS 'CK' 'SCO' 
+          ESCOPE = '{' COMMANDS '}' 
               [0025, 0013] (0009,                   OK) {{}
   26        int i;
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0026, 0007] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0026, 0011] (0002,                   ID) {i}
           NAMEEXT = ε
               [0026, 0012] (0015,                  SCO) {;}
   27        int unsortedValues[10];
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0027, 0007] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0027, 0011] (0002,                   ID) {unsortedValues}
-          NAMEEXT = 'OB' EA 'CB'
+          NAMEEXT = '[' EA ']'
               [0027, 0025] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -617,13 +637,13 @@
               [0027, 0028] (0014,                   CB) {]}
               [0027, 0029] (0015,                  SCO) {;}
   28        repeater(i = 0; 9; 1) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = REPEATER
-          REPEATER = 'REPEATER' 'OP' 'ID' ATTRIBUTION 'SCO' PARAMITEM 'SCO' PARAMITEM 'CP' 'OK' COMMANDS 'CK'
+          REPEATER = 'repeater' '(' 'ID' ATTRIBUTION ';' PARAMITEM ';' PARAMITEM ')' ESCOPE
               [0028, 0007] (0025,             REPEATER) {repeater}
               [0028, 0015] (0011,                   OP) {(}
               [0028, 0016] (0002,                   ID) {i}
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0028, 0018] (0039,                  ATR) {=}
           VALUE = EA
@@ -637,25 +657,52 @@
           TAR = ε
           EAR = ε
               [0028, 0021] (0015,                  SCO) {;}
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0028, 0023] (0017,               CTEINT) {9}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
               [0028, 0024] (0015,                  SCO) {;}
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0028, 0026] (0017,               CTEINT) {1}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
               [0028, 0027] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0028, 0029] (0009,                   OK) {{}
   29             read(unsortedValues[i]);
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = READ
-          READ = 'READ' 'OP' READEXT 'CP'
+          READ = 'read' '(' READEXT ')'
               [0029, 0012] (0028,                 READ) {read}
               [0029, 0016] (0011,                   OP) {(}
           READEXT = NAME READEXTR
           NAME = 'ID' NAMEEXT
               [0029, 0017] (0002,                   ID) {unsortedValues}
-          NAMEEXT = 'OB' EA 'CB'
+          NAMEEXT = '[' EA ']'
               [0029, 0031] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -676,13 +723,13 @@
               [0030, 0007] (0010,                   CK) {}}
               [0030, 0008] (0015,                  SCO) {;}
   31        repeater(i = 0; 9; 1) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = REPEATER
-          REPEATER = 'REPEATER' 'OP' 'ID' ATTRIBUTION 'SCO' PARAMITEM 'SCO' PARAMITEM 'CP' 'OK' COMMANDS 'CK'
+          REPEATER = 'repeater' '(' 'ID' ATTRIBUTION ';' PARAMITEM ';' PARAMITEM ')' ESCOPE
               [0031, 0007] (0025,             REPEATER) {repeater}
               [0031, 0015] (0011,                   OP) {(}
               [0031, 0016] (0002,                   ID) {i}
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0031, 0018] (0039,                  ATR) {=}
           VALUE = EA
@@ -696,25 +743,52 @@
           TAR = ε
           EAR = ε
               [0031, 0021] (0015,                  SCO) {;}
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0031, 0023] (0017,               CTEINT) {9}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
               [0031, 0024] (0015,                  SCO) {;}
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0031, 0026] (0017,               CTEINT) {1}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
               [0031, 0027] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0031, 0029] (0009,                   OK) {{}
   32             print(unsortedValues[i]);
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0032, 0012] (0027,                PRINT) {print}
               [0032, 0017] (0011,                   OP) {(}
           MESSAGE = NAME MESSAGEEXT
           NAME = 'ID' NAMEEXT
               [0032, 0018] (0002,                   ID) {unsortedValues}
-          NAMEEXT = 'OB' EA 'CB'
+          NAMEEXT = '[' EA ']'
               [0032, 0032] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -732,9 +806,9 @@
               [0032, 0035] (0012,                   CP) {)}
               [0032, 0036] (0015,                  SCO) {;}
   33             print("\n");
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0033, 0012] (0027,                PRINT) {print}
               [0033, 0017] (0011,                   OP) {(}
           MESSAGE = 'CTESTRING' MESSAGEEXT
@@ -748,14 +822,14 @@
               [0034, 0007] (0010,                   CK) {}}
               [0034, 0008] (0015,                  SCO) {;}
   35        int sortedValues[10];
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = DECLARATION
           DECLARATION = TYPE NAME
-          TYPE = 'INT'
+          TYPE = 'int'
               [0035, 0007] (0004,                  INT) {int}
           NAME = 'ID' NAMEEXT
               [0035, 0011] (0002,                   ID) {sortedValues}
-          NAMEEXT = 'OB' EA 'CB'
+          NAMEEXT = '[' EA ']'
               [0035, 0023] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -769,11 +843,11 @@
               [0035, 0026] (0014,                   CB) {]}
               [0035, 0027] (0015,                  SCO) {;}
   36        sortedValues = shellsort(unsortedValues, 10);
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = 'ID' CMDEXT
               [0036, 0007] (0002,                   ID) {sortedValues}
           CMDEXT = ATTRIBUTION
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0036, 0020] (0039,                  ATR) {=}
           VALUE = EA
@@ -784,20 +858,33 @@
           ID = 'ID' IDFAT
               [0036, 0022] (0002,                   ID) {shellsort}
           IDFAT = FUNCTIONCALL
-          FUNCTIONCALL = 'OP' FUNCTIONCALLEXT
+          FUNCTIONCALL = '(' FUNCTIONCALLEXT
               [0036, 0031] (0011,                   OP) {(}
-          FUNCTIONCALLEXT = LISTPARAMSCALL 'CP'
+          FUNCTIONCALLEXT = LISTPARAMSCALL ')'
           LISTPARAMSCALL = PARAMITEM LISTPARAMSCALLEXT
           PARAMITEM = NAME
           NAME = 'ID' NAMEEXT
               [0036, 0032] (0002,                   ID) {unsortedValues}
           NAMEEXT = ε
-          LISTPARAMSCALLEXT = 'SPTR' LISTPARAMSCALL
+          LISTPARAMSCALLEXT = ',' LISTPARAMSCALL
               [0036, 0046] (0016,                 SPTR) {,}
           LISTPARAMSCALL = PARAMITEM LISTPARAMSCALLEXT
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0036, 0048] (0017,               CTEINT) {10}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
           LISTPARAMSCALLEXT = ε
               [0036, 0050] (0012,                   CP) {)}
           PAFAT = ε
@@ -805,13 +892,13 @@
           EAR = ε
               [0036, 0051] (0015,                  SCO) {;}
   37        repeater(i = 0; 9; 1) {
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = REPEATER
-          REPEATER = 'REPEATER' 'OP' 'ID' ATTRIBUTION 'SCO' PARAMITEM 'SCO' PARAMITEM 'CP' 'OK' COMMANDS 'CK'
+          REPEATER = 'repeater' '(' 'ID' ATTRIBUTION ';' PARAMITEM ';' PARAMITEM ')' ESCOPE
               [0037, 0007] (0025,             REPEATER) {repeater}
               [0037, 0015] (0011,                   OP) {(}
               [0037, 0016] (0002,                   ID) {i}
-          ATTRIBUTION = NAMEEXT 'ATR' VALUE
+          ATTRIBUTION = NAMEEXT '=' VALUE
           NAMEEXT = ε
               [0037, 0018] (0039,                  ATR) {=}
           VALUE = EA
@@ -825,25 +912,52 @@
           TAR = ε
           EAR = ε
               [0037, 0021] (0015,                  SCO) {;}
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0037, 0023] (0017,               CTEINT) {9}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
               [0037, 0024] (0015,                  SCO) {;}
-          PARAMITEM = CONSTANT
+          PARAMITEM = EB
+          EB= TB EBR
+          TB = FB TBR
+          FB = EA EREL
+          EA = TA EAR
+          TA = PA TAR
+          PA = FA PAFAT
+          FA = CONSTANT
           CONSTANT = 'CTEINT'
               [0037, 0026] (0017,               CTEINT) {1}
+          PAFAT = ε
+          TAR = ε
+          EAR = ε
+          EREL = ε
+          TBR = ε
+          EBR = ε
               [0037, 0027] (0012,                   CP) {)}
+          ESCOPE = '{' COMMANDS '}' 
               [0037, 0029] (0009,                   OK) {{}
   38             print(sortedValues[i]);
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0038, 0012] (0027,                PRINT) {print}
               [0038, 0017] (0011,                   OP) {(}
           MESSAGE = NAME MESSAGEEXT
           NAME = 'ID' NAMEEXT
               [0038, 0018] (0002,                   ID) {sortedValues}
-          NAMEEXT = 'OB' EA 'CB'
+          NAMEEXT = '[' EA ']'
               [0038, 0030] (0013,                   OB) {[}
           EA = TA EAR
           TA = PA TAR
@@ -861,9 +975,9 @@
               [0038, 0033] (0012,                   CP) {)}
               [0038, 0034] (0015,                  SCO) {;}
   39             print("\n");
-          COMMANDS = CMD 'SCO' COMMANDS
+          COMMANDS = CMD ';' COMMANDS
           CMD = PRINT
-          PRINT = 'PRINT' 'OP' MESSAGE PRINTEXT 'CP'
+          PRINT = 'print' '(' MESSAGE PRINTEXT ')'
               [0039, 0012] (0027,                PRINT) {print}
               [0039, 0017] (0011,                   OP) {(}
           MESSAGE = 'CTESTRING' MESSAGEEXT

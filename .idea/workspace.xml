@@ -37,7 +37,20 @@
       <recent name="C:\Users\Luan\IdeaProjects\LM_Language\files" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SyntaticAnalyzer">
+  <component name="RunManager" selected="Application.Compiler">
+    <configuration name="Compiler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="syntatic.Compiler" />
+      <module name="LM_Language" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="syntatic.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Syntatic (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="lexical.Syntatic" />
       <module name="LM_Language" />
@@ -73,6 +86,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Compiler" />
         <item itemvalue="Application.SyntaticAnalyzer" />
         <item itemvalue="Application.Syntatic (1)" />
         <item itemvalue="Application.Syntatic" />
@@ -121,26 +135,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576254730837" />
-    <state width="1877" height="307" key="GridCell.Tab.0.bottom" timestamp="1582156845206">
+    <state width="1877" height="135" key="GridCell.Tab.0.bottom" timestamp="1582933786992">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="307" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
-    <state width="1877" height="307" key="GridCell.Tab.0.center" timestamp="1582156845206">
+    <state width="1877" height="135" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582933786992" />
+    <state width="1877" height="135" key="GridCell.Tab.0.center" timestamp="1582933786991">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="307" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
-    <state width="1877" height="307" key="GridCell.Tab.0.left" timestamp="1582156845206">
+    <state width="1877" height="135" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582933786991" />
+    <state width="1877" height="135" key="GridCell.Tab.0.left" timestamp="1582933786991">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="307" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
-    <state width="1877" height="307" key="GridCell.Tab.0.right" timestamp="1582156845206">
+    <state width="1877" height="135" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582933786991" />
+    <state width="1877" height="135" key="GridCell.Tab.0.right" timestamp="1582933786991">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="307" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582156845206" />
-    <state x="656" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1582151222881">
+    <state width="1877" height="135" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582933786991" />
+    <state x="656" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1582927119584">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582151222881" />
+    <state x="656" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582927119584" />
     <state x="604" y="134" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1582050087992">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
